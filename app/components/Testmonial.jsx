@@ -5,7 +5,7 @@ import { useState } from "react";
 const Testmonial = () => {
   const [isShowReadMore, setIsShowReadMore] = useState(false);
   return (
-    <div className="flex flex-col items-center py-2 px-6 w-[800px] min-w-[500px]">
+    <div className="flex flex-col items-center py-2 px-6  min-w-[500px]">
       <Image
         src="https://cti.farziengineer.co/hosted/Prahlad_Kakkar_2-faf594f6538f.png?auto=format&sharp=20&ixlib=react-9.3.0&w=1946"
         width={50}

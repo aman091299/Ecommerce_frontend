@@ -1,6 +1,7 @@
 'use client'
 import Image from "next/image";
 import { useRef,useState } from "react";
+import Link from "next/link";
 
 const excludeDropdowns=["Parathas","Marinades","Curries","Eggs"]
 const categories = [
@@ -154,8 +155,9 @@ setTimeout(checkScroll, 200);
                <div className="hidden z-100 rounded-lg absolute top-[179px] w-32 shadow-md bg-white px-2 py-3 group-hover:block ">
                {cat?.dropdown?.map((subCat,index)=>(
                 <div key={index}>
-                  <div  className="hover:bg-[#f2f2f2] px-2 py-2 rounded-lg text-[12px]  ">{subCat}</div>
-               
+                <Link href={"/collection/"+(cat.name).toLowerCase()+"/"+subCat.toLowerCase()}>
+                  <div  className="hover:bg-[#f2f2f2] px-2 py-2 rounded-lg text-[12px] cursor-pointer ">{subCat}</div>
+               </Link>
                  <div className=" border-b-[#f2f2f2] border-b-1 border-b-rounded-full "></div>
                  </div>
                ))}

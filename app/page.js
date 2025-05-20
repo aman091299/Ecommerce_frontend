@@ -9,6 +9,7 @@ import MembershipBanner from './components/MembershipBanner';
 import Categories from './components/Categories';
 import Testmonial from './components/Testmonial';
 import TestmonialContainer from "./components/TestmonialContainer";
+import Recipe from "./components/Recipe";
 
 export default function Home() {
  
@@ -22,6 +23,10 @@ export default function Home() {
    <Categories/>
     <YoutubeReelContainer/>
      <TestmonialContainer/>
+     {/* To do work */}
+      {/* <Recipe/>
+     <Blog/> */}
+    
       
   </div>
   );
