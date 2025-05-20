@@ -1,6 +1,8 @@
 'use client'
 import Image from "next/image";
 import { useRef,useState } from "react";
+
+const excludeDropdowns=["Parathas","Marinades","Curries","Eggs"]
 const categories = [
   { 
     name: "Exclusive Deals",
@@ -61,22 +63,22 @@ const categories = [
   {
     name: "Eggs",
     icon: "https://cti.farziengineer.co/hosted/Eggs_Category_Icon_88_x_88_px-c580e3994cff.png",
-    dropdown: ["White Eggs", "Brown Eggs", "Organic Eggs"],
+    // dropdown: ["White Eggs", "Brown Eggs", "Organic Eggs"],
   },
   {
     name: "Curries",
     icon: "https://cti.farziengineer.co/hosted/Curries_Category_Icon_88_x_88_px-b47bfdbd7f97.png",
-    dropdown: ["Chicken Curry", "Fish Curry", "Mutton Curry"],
+    // dropdown: ["Chicken Curry", "Fish Curry", "Mutton Curry"],
   },
   {
     name: "Marinades",
     icon: "https://cti.farziengineer.co/hosted/Marinade_Category_Icon_88_x_88_px-29403b3a4083.png",
-    dropdown: ["Tikka Marinade", "Spicy Marinade", "Herb Marinade"],
+    // dropdown: ["Tikka Marinade", "Spicy Marinade", "Herb Marinade"],
   },
   {
     name: "Parathas",
     icon: "https://cti.farziengineer.co/hosted/Paratha_Category_Icon_88_x_88_px-487eadcf6f9a.png",
-    dropdown: ["Plain Paratha", "Stuffed Paratha", "Mini Paratha"],
+    // dropdown: ["Plain Paratha", "Stuffed Paratha", "Mini Paratha"],
   },
 ];
 
@@ -126,6 +128,7 @@ const CategoryButton = () => {
 setTimeout(checkScroll, 200);
    
   }
+
   return (
     <div ref={scrollRef} className="shadow-lg overflow-x-auto scroll-smooth scrollbar-hide cursor-pointer">
       <div className="mx-2 flex items-center justify-center w-[1550px] h-24 ">
@@ -135,9 +138,9 @@ setTimeout(checkScroll, 200);
             className="flex flex-col items-center justify-center w-full border-r-gray-300 border-r-1 h-full group "
           >
             <Image src={cat.icon} alt="navbar-icons" width={40} height={40} />
-            <div className="flex justify-center  items-center gap-2">
-              <div className="text-[13px] max-w-16 py-1">{cat.name}</div>
-           {  cat.name !=="Exclusive Deals"  && cat.name !=="Eggs" && 
+            <div className="flex justify-center  items-baseline gap-2">
+              <div className="text-[11px] max-w-10 h-9 py-1">{cat.name}</div>
+           {  !excludeDropdowns.includes(cat.name) && 
            <svg     
              width="6"
                height="12"  
@@ -147,13 +150,17 @@ setTimeout(checkScroll, 200);
                 <path d="M6 6L0 12V0L6 6Z" ></path>
               </svg>
            }
-               <div className="hidden rounded-lg absolute top-[179px] w-32 shadow-md px-2 py-3 group-hover:block ">
-               {cat.dropdown.map((subCat,index)=>(
+           {!excludeDropdowns.includes(cat.name) && 
+               <div className="hidden z-100 rounded-lg absolute top-[179px] w-32 shadow-md bg-white px-2 py-3 group-hover:block ">
+               {cat?.dropdown?.map((subCat,index)=>(
                 <div key={index}>
                   <div  className="hover:bg-[#f2f2f2] px-2 py-2 rounded-lg text-[12px]  ">{subCat}</div>
-                 { cat.dropdown.length-1 !== index &&<div className=" border-b-[#f2f2f2] border-b-1 border-b-rounded-full "></div>}
+               
+                 <div className=" border-b-[#f2f2f2] border-b-1 border-b-rounded-full "></div>
                  </div>
-               ))}</div>
+               ))}
+               </div>
+               }
             </div>
           </div>
         ))}

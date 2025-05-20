@@ -1,10 +1,28 @@
 'use client'
+
+import SpotLightContainer from "./components/SpotLightContainer";
+import Banner from "./components/Banner";
 import CategoryButton from "./components/CategoryButton";
+import YoutubeReelContainer from "./components/YoutubeReelContainer";
+import Heading from './components/Heading'
+import MembershipBanner from './components/MembershipBanner';
+import Categories from './components/Categories';
+import Testmonial from './components/Testmonial';
+import TestmonialContainer from "./components/TestmonialContainer";
 
 export default function Home() {
+ 
+
   return (
   <div className="w-full">
     <CategoryButton/>
+    <Banner/>
+    <SpotLightContainer/>
+   <MembershipBanner/>
+   <Categories/>
+    <YoutubeReelContainer/>
+     <TestmonialContainer/>
+      
   </div>
   );
 }

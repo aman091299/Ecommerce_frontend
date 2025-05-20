@@ -19,6 +19,11 @@ const nextConfig = {
         hostname: 'i.pinimg.com',
         port: '',
         pathname: '/736x/15/6d/c4/**',
+      }, {
+        protocol: 'https',
+        hostname: 'cti.farziengineer.co',
+        port: '',
+        pathname: '/banners**',
       },
         {
         protocol: 'https',
@@ -28,9 +33,9 @@ const nextConfig = {
       },
         {
         protocol: 'https',
-        hostname: 'wallpapersok.com',
+        hostname: 'cti.farziengineer.co',
         port: '',
-        pathname: '/images/hd/**',
+        pathname: '/banners/**',
       },
         {
         protocol: 'https',
@@ -40,15 +45,15 @@ const nextConfig = {
       },
         {
         protocol: 'https',
-        hostname: 'cdn.pixabay.com',
+        hostname: 'cti.farziengineer.co',
         port: '',
-        pathname: '/photo/**',
+        pathname: '/products/**',
       },
         {
         protocol: 'https',
-        hostname: 'media.harrypotterfanzone.com',
+        hostname: 'cti.farziengineer.co',
         port: '',
-        pathname: '/harry-potter-order-of-the-phoenix-portrait-17.jpg',
+        pathname: '/collection-backgrounds/**',
       },
         {
         protocol: 'https',
