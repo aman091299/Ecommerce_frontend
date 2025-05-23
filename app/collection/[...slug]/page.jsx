@@ -4,171 +4,77 @@ import axios from "axios";
 import ProductCardContainer from "@/app/components/ProductCardContainer";
 import { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-
-const categories = [
-  {
-    name: "Exclusive Deals",
-    icon: "https://cambaytigerstage-media.farziengineer.co/hosted/bxs_offer_1-237de948d7db.png",
-    dropdown: ["ALL","Limited Time", "Top Picks", "Festive Offers"],
-  },
-  {
-    name: "Combos",
-    icon: "https://cti.farziengineer.co/hosted/tEST_Combo_Icon_88x88px-d88b6775b75c.png",
-    dropdown: [
-      "All",
-      "Party Starter",
-      "Grill Master",
-      "Breakfast Bounty",
-      "Spice Kit",
-    ],
-  },
-  {
-    name: "Fish & Seafood",
-    icon: "https://cti.farziengineer.co/hosted/Fish_NEW_Category_Icon_88_x_88_px-3679f8146cab.png",
-    dropdown: ["ALL","Fish Fillets", "Shellfish", "Crustaceans"],
-  },
-  {
-    name: "Prawns",
-    icon: "https://cti.farziengineer.co/hosted/Category_Icons_88_x_88_px-d6fd40bbe57b.png",
-    dropdown: ["Sea Prawns", "Farmed Prawns", "Bundles"],
-  },
-  {
-    name: "Poultry",
-    icon: "https://cti.farziengineer.co/hosted/CHICKEN_V20_Category_Icon_88_x_88_px-b0922ae50003.png",
-    dropdown: ["Chicken Cuts", "Whole Chicken", "Wings"],
-  },
-  {
-    name: "Mutton",
-    icon: "https://cti.farziengineer.co/hosted/MUTTON_V30_Category_Icon_88_x_88_px-d9c3d875676d.png",
-    dropdown: ["Goat", "Lamb", "Minced"],
-  },
-  {
-    name: "Ready to cook",
-    icon: "https://cti.farziengineer.co/hosted/RTC_Icon_88x88_px-2d32453eed80.png",
-    dropdown: ["Chicken RTC", "Seafood RTC", "Prawn RTC"],
-  },
-  {
-    name: "Frozen Seafood",
-    icon: "https://cti.farziengineer.co/hosted/pomfret-frozen-category-icon-88x88px-6369874e5424.png",
-    dropdown: ["Pomfret", "Frozen Prawns", "Frozen Fillets"],
-  },
-  {
-    name: "Kebabs",
-    icon: "https://cti.farziengineer.co/hosted/Category_Icons_-_Kebab_88_x_88_px-eb9017d53d38.png",
-    dropdown: ["Chicken Kebabs", "Mutton Kebabs", "Seafood Kebabs"],
-  },
-  {
-    name: "Deli",
-    icon: "https://cti.farziengineer.co/hosted/Cold_cuts_category_icon-9c53f52c2e1d.png",
-    dropdown: ["Cold Cuts", "Smoked Meats", "Sliced Sausages"],
-  },
-  {
-    name: "Eggs",
-    icon: "https://cti.farziengineer.co/hosted/Eggs_Category_Icon_88_x_88_px-c580e3994cff.png",
-    // dropdown: ["White Eggs", "Brown Eggs", "Organic Eggs"],
-  },
-  {
-    name: "Curries",
-    icon: "https://cti.farziengineer.co/hosted/Curries_Category_Icon_88_x_88_px-b47bfdbd7f97.png",
-    // dropdown: ["Chicken Curry", "Fish Curry", "Mutton Curry"],
-  },
-  {
-    name: "Marinades",
-    icon: "https://cti.farziengineer.co/hosted/Marinade_Category_Icon_88_x_88_px-29403b3a4083.png",
-    // dropdown: ["Tikka Marinade", "Spicy Marinade", "Herb Marinade"],
-  },
-  {
-    name: "Parathas",
-    icon: "https://cti.farziengineer.co/hosted/Paratha_Category_Icon_88_x_88_px-487eadcf6f9a.png",
-    // dropdown: ["Plain Paratha", "Stuffed Paratha", "Mini Paratha"],
-  },
-];
-const links = [
-  "ALL",
-  "Party Starter",
-  "Grill Master",
-  "Breakfast Bounty",
-  "Spice Kit",
-];
-
-const dropdownHealthLinks = [
-  {
-    name: "Health Benefits",
-    dropdownList: [
-      "Heart Healthy",
-      "Lean Protein",
-      "Weight Loss",
-      "Diabetic Friendly",
-      "Stupendous Eyesight",
-      "Low Fat",
-      "Aids Metabolism",
-      "Vitamin B12 Rich",
-      "Sturdy Bones",
-      "Stress Killer",
-    ],
-  },
-  {
-    name: "Best Suited for",
-    dropdownList: [
-      "Grill",
-      "Fry",
-      "Roast",
-      "Curry",
-      "Biryani",
-      "Steam",
-      "Raw",
-      "Soup",
-    ],
-  },
-  {
-    name: "Bone type",
-    dropdownList: ["Boneless", "Bone-In"],
-  },
-  {
-    name: "Cuts",
-    dropdownList: [
-      "Whole",
-      "Steaks",
-      "Fillet",
-      "Whole cleaned",
-      "DVC",
-      "DVT",
-      "Moon cut",
-      "Bengali Cut",
-      "Curry Cut",
-      "Breast",
-      "Drumstick",
-      "Leg",
-      "Lollipop",
-      "Raan",
-      "Chops",
-      "Nalli",
-    ],
-  },
-];
+import {
+  BASE_URL,
+  categories,
+  filterValues,
+  formattedValue,
+} from "@/app/utilis/constants";
 
 const page = () => {
-  const [products, setProducts] = useState([]);
-  const [currentIndex, setCurrentIndex] = useState(-1);
-  const [linksCurrentIndex, setLinksCurrentIndex] = useState(0);
+  const [products, setProducts] = useState(null);
+  const [filterCurrentIndex, setFilterCurrentIndex] = useState(-1);
+  const [collectionDropdownCurrentIndex, setCollectionDropdownCurrentIndex] =
+    useState(0);
   const [selectedFilters, setSelectedFilters] = useState({});
   const dropdownRef = useRef(null);
   const params = useParams();
-  const collectionName = params.slug[0]
+  const formatedCollectionName = params.slug[0];
+
+ 
+  const collectionName = formatedCollectionName
     .replace(/-/g, " ") // Replace dashes with spaces
     .replace(/\band\b/g, "&") // Replace 'and' with '&'
     .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word;
-  const formatedCollectionName = params.slug[0];
-  const formatedTagName = params.slug[1] || "all";
-  const dynamicRoute = params.slug.join("/");
-  const router = useRouter();
 
-  const handleTabClick = (link) => {
-    const formatedLink = link
-      .replace(/&/g, "and")
-      .replace(/'/g, "")
-      .replace(/\s+/g, "-")
-      .toLocaleLowerCase();
+     console.log(collectionName)
+
+
+  const formatedTagName = params?.slug[1];
+  const tagName = formatedTagName
+    ?.replace(/-/g, " ") // Replace dashes with spaces
+    ?.replace(/\band\b/g, "&") // Replace 'and' with '&'
+    ?.replace(/\b\w/g, (char) => char.toUpperCase());
+
+  const dynamicRoute = params?.slug?.join("/");
+  const router = useRouter();
+ 
+
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      setFilterCurrentIndex(-1);
+    };
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setFilterCurrentIndex(-1);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
+
+  useEffect(() => {
+    getProductData(null);
+
+    const category = categories?.find((cat) => cat.name === collectionName);
+    
+    const index = category?.dropdown?.findIndex((dropdownlist) => {
+      return (
+       formattedValue(dropdownlist)  ===
+        formatedTagName
+      );
+    });
+    setCollectionDropdownCurrentIndex(index);
+  }, [dynamicRoute]);
+
+  const handleTabClick = (collectionDropdownValue) => {
+    const formatedLink = formattedValue(collectionDropdownValue);
     router.push("/collection/" + formatedCollectionName + "/" + formatedLink);
   };
 
@@ -226,26 +132,25 @@ const page = () => {
   };
 
   const getProductData = async (checkboxItems) => {
-    let queryStringValue = null;
-    if (checkboxItems) {
-      queryStringValue = getQueryString(checkboxItems);
-      queryStringValue = "&" + queryStringValue;
-    }
 
     try {
-      let fullUrl =
-        "http://localhost:3000/product/viewAllProducts/" +
-        formatedCollectionName +
-        "?tags=" +
-        formatedTagName;
 
-      if (queryStringValue) {
-        fullUrl =
-          "http://localhost:3000/product/viewAllProducts/" +
-          formatedCollectionName +
-          "?tags=" +
-          formatedTagName +
-          queryStringValue;
+      let queryStringValue = null;
+      if (checkboxItems) {
+        queryStringValue = getQueryString(checkboxItems);
+        queryStringValue = "&" + queryStringValue;
+      }
+       let queryTagName="?tags="+formatedTagName ;
+      let fullUrl = BASE_URL+"/product/viewAllProducts/" +formatedCollectionName
+
+       if(formatedTagName){
+        fullUrl= fullUrl+queryTagName;
+       }
+      if (queryStringValue && !formatedTagName) {
+        fullUrl =fullUrl+"?"+queryStringValue;
+      }
+      if(queryStringValue && formatedTagName) {
+        fullUrl =fullUrl+queryStringValue;
       }
 
       const products = await axios.get(fullUrl);
@@ -256,30 +161,14 @@ const page = () => {
     return;
   };
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setCurrentIndex(-1);
-    };
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setCurrentIndex(-1);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, []);
-  useEffect(() => {
-    getProductData(null);
 
-    const index = links.findIndex((link) => {
-      return link.toLowerCase().replace(/\s+/g, "-") === formatedTagName;
-    });
-    setLinksCurrentIndex(index);
-  }, [dynamicRoute]);
+  if (!products) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        Loading...
+      </div>
+    );
+  }
 
   return (
     <div className="mx-12 my-4">
@@ -287,55 +176,58 @@ const page = () => {
         <Link href="/">
           <span className="hover:text-orange-600"> Home </span>
         </Link>
-        {">"}
+        {" > "}
         <Link href={"/collection/" + formatedCollectionName}>
           <span className="hover:text-orange-600">{collectionName}</span>
         </Link>
-        {">"}{" "}
-        <span className="text-orange-600">{links[linksCurrentIndex]}</span>
+        {" > "} <span className="text-orange-600">{tagName}</span>
       </p>
       <div className="font-bold  text-3xl mt-4">{collectionName}</div>
       <div>
-        <div className="flex gap-3 py-2 ">
-          {categories?.map((link, index) => (
-            <div className="flex gap-3" key={index}>
-              {link.name === collectionName &&
-                link?.dropdown?.map((dropdownValue, index) => (
+        <div className="flex py-2 ">
+          {categories?.map((catObj) => (
+            <div className="flex " key={catObj?.name}>
+              {catObj.name === collectionName &&
+                catObj?.dropdown?.map((collectionDropdownValue, index) => (
                   <div
-                    key={dropdownValue}
+                    key={collectionDropdownValue}
                     className={
-                      linksCurrentIndex === index
-                        ? "border-b-2 text-orange-500"
-                        : "" + " px-1 cursor-pointer"
+                      collectionDropdownCurrentIndex === index
+                        ? "border-b-3 border-bg-orange-500 text-orange-500 py-3"
+                        : "" +
+                          " border-b-1 border-bg-[#ebebeb] px-5 cursor-pointer py-3"
                     }
-                    onClick={() => handleTabClick(dropdownValue)}
+                    onClick={() => {
+                      if (collectionDropdownCurrentIndex !== index)
+                        handleTabClick(collectionDropdownValue);
+                    }}
                   >
-                    {dropdownValue}
+                    {collectionDropdownValue}
                   </div>
                 ))}
             </div>
           ))}
         </div>
         <div className="flex gap-3 py-2 ">
-          {dropdownHealthLinks?.map((link, index) => (
-            <div key={link.name}>
+          {filterValues?.map((filterValue, index) => (
+            <div key={filterValue.name}>
               <div
                 className={
-                  (currentIndex === index
+                  (filterCurrentIndex === index
                     ? "border-b-2 text-orange-500  "
                     : "text-[#8c8c8c]") +
                   " cursor-pointer  shadow-lg border-1 border-[#f1eded] px-4 py-3 rounded-lg flex items-center justify-center gap-2"
                 }
                 onClick={() => {
-                  if (index === currentIndex) setCurrentIndex(-1);
-                  else setCurrentIndex(index);
+                  if (index === filterCurrentIndex) setFilterCurrentIndex(-1);
+                  else setFilterCurrentIndex(index);
                 }}
               >
                 <div className="cursor-pointer font-semibold text-sm">
-                  {link.name}
+                  {filterValue.name}
                 </div>
                 <div>
-                  {currentIndex === index ? (
+                  {filterCurrentIndex === index ? (
                     <svg
                       className=""
                       width="12"
@@ -366,25 +258,36 @@ const page = () => {
                   )}
                 </div>
               </div>
-              {currentIndex === index && (
+              {filterCurrentIndex === index && (
                 <div
                   ref={dropdownRef}
                   className=" bg-white z-100 absolute py-2 mt-2 rounded-lg min-w-[270px]"
                 >
                   <div className=" grid grid-cols-2 ">
-                    {link?.dropdownList?.map((list, listIndex) => (
-                      <div key={listIndex} className="flex gap-2 mx-6 ">
-                        <input
-                          type="checkbox"
-                          value={list}
-                          name={link.name}
-                          checked={!!selectedFilters[link.name]?.includes(list)}
-                          onChange={handleCheckboxChange}
-                          className="accent-orange-500  rounded focus:ring-orange-300"
-                        />
-                        <div className="text-sm leading-10">{list}</div>
-                      </div>
-                    ))}
+                    {filterValue?.dropdownList?.map(
+                      (filterDropdownValue, dropDownListIndex) => (
+                        <div
+                          key={dropDownListIndex}
+                          className="flex gap-2 mx-6 "
+                        >
+                          <input
+                            type="checkbox"
+                            value={filterDropdownValue}
+                            name={filterValue.name}
+                            checked={
+                              !!selectedFilters[filterValue.name]?.includes(
+                                filterDropdownValue
+                              )
+                            }
+                            onChange={handleCheckboxChange}
+                            className="accent-orange-500  rounded focus:ring-orange-300"
+                          />
+                          <div className="text-sm leading-10">
+                            {filterDropdownValue}
+                          </div>
+                        </div>
+                      )
+                    )}
                   </div>
                   <div className="flex justify-evenly items-center px-4 pt-2 mt-2 w-full border-t-1  border-[#f1eded] ">
                     <div
@@ -392,7 +295,7 @@ const page = () => {
                       onClick={() => {
                         setSelectedFilters({});
                         getProductData(null);
-                        setCurrentIndex(-1);
+                        setFilterCurrentIndex(-1);
                       }}
                     >
                       CLEAR ALL
@@ -401,7 +304,7 @@ const page = () => {
                       className="btn btn-neutral text-sm"
                       onClick={() => {
                         getProductData(selectedFilters);
-                        setCurrentIndex(-1);
+                        setFilterCurrentIndex(-1);
                       }}
                     >
                       APPLY

@@ -2,86 +2,8 @@
 import Image from "next/image";
 import { useRef,useState } from "react";
 import Link from "next/link";
+import { categories,excludeDropdowns, formattedValue } from "../utilis/constants";
 
-const excludeDropdowns=["Parathas","Marinades","Curries","Eggs"]
-const categories = [
-  { 
-    name: "Exclusive Deals",
-    icon: "https://cambaytigerstage-media.farziengineer.co/hosted/bxs_offer_1-237de948d7db.png",
-    dropdown: ["Limited Time", "Top Picks", "Festive Offers"],
-  },
-  {
-    name: "Combos",
-    icon: "https://cti.farziengineer.co/hosted/tEST_Combo_Icon_88x88px-d88b6775b75c.png",
-    dropdown: [
-      "All",
-      "Party Starter",
-      "Grill Master",
-      "Breakfast Bounty",
-      "Spice Kit",
-    ],
-  },
-  {
-    name: "Fish & Seafood",
-    icon: "https://cti.farziengineer.co/hosted/Fish_NEW_Category_Icon_88_x_88_px-3679f8146cab.png",
-    dropdown: ["ALL","Fish Fillets", "Shellfish", "Crustaceans"],
-  },
-  {
-    name: "Prawns",
-    icon: "https://cti.farziengineer.co/hosted/Category_Icons_88_x_88_px-d6fd40bbe57b.png",
-    dropdown: ["Sea Prawns", "Farmed Prawns", "Bundles"],
-  },
-  {
-    name: "Poultry",
-    icon: "https://cti.farziengineer.co/hosted/CHICKEN_V20_Category_Icon_88_x_88_px-b0922ae50003.png",
-    dropdown: ["Chicken Cuts", "Whole Chicken", "Wings"],
-  },
-  {
-    name: "Mutton",
-    icon: "https://cti.farziengineer.co/hosted/MUTTON_V30_Category_Icon_88_x_88_px-d9c3d875676d.png",
-    dropdown: ["Goat", "Lamb", "Minced"],
-  },
-  {
-    name: "Ready to cook",
-    icon: "https://cti.farziengineer.co/hosted/RTC_Icon_88x88_px-2d32453eed80.png",
-    dropdown: ["Chicken RTC", "Seafood RTC", "Prawn RTC"],
-  },
-  {
-    name: "Frozen Seafood",
-    icon: "https://cti.farziengineer.co/hosted/pomfret-frozen-category-icon-88x88px-6369874e5424.png",
-    dropdown: ["Pomfret", "Frozen Prawns", "Frozen Fillets"],
-  },
-  {
-    name: "Kebabs",
-    icon: "https://cti.farziengineer.co/hosted/Category_Icons_-_Kebab_88_x_88_px-eb9017d53d38.png",
-    dropdown: ["Chicken Kebabs", "Mutton Kebabs", "Seafood Kebabs"],
-  },
-  {
-    name: "Deli",
-    icon: "https://cti.farziengineer.co/hosted/Cold_cuts_category_icon-9c53f52c2e1d.png",
-    dropdown: ["Cold Cuts", "Smoked Meats", "Sliced Sausages"],
-  },
-  {
-    name: "Eggs",
-    icon: "https://cti.farziengineer.co/hosted/Eggs_Category_Icon_88_x_88_px-c580e3994cff.png",
-    // dropdown: ["White Eggs", "Brown Eggs", "Organic Eggs"],
-  },
-  {
-    name: "Curries",
-    icon: "https://cti.farziengineer.co/hosted/Curries_Category_Icon_88_x_88_px-b47bfdbd7f97.png",
-    // dropdown: ["Chicken Curry", "Fish Curry", "Mutton Curry"],
-  },
-  {
-    name: "Marinades",
-    icon: "https://cti.farziengineer.co/hosted/Marinade_Category_Icon_88_x_88_px-29403b3a4083.png",
-    // dropdown: ["Tikka Marinade", "Spicy Marinade", "Herb Marinade"],
-  },
-  {
-    name: "Parathas",
-    icon: "https://cti.farziengineer.co/hosted/Paratha_Category_Icon_88_x_88_px-487eadcf6f9a.png",
-    // dropdown: ["Plain Paratha", "Stuffed Paratha", "Mini Paratha"],
-  },
-];
 
 const CategoryButton = () => {
   const scrollRef=useRef(null);
@@ -155,7 +77,7 @@ setTimeout(checkScroll, 200);
                <div className="hidden z-100 rounded-lg absolute top-[179px] w-32 shadow-md bg-white px-2 py-3 group-hover:block ">
                {cat?.dropdown?.map((subCat,index)=>(
                 <div key={index}>
-                <Link href={"/collection/"+(cat.name).trim().replace(/&/g, 'and').replace(/'/g, '').replace(/\s+/g, "-").toLocaleLowerCase()+"/"+subCat.trim().replace(/&/g, 'and').replace(/'/g, '').replace(/\s+/g, "-").toLocaleLowerCase()}>
+                <Link href={"/collection/"+formattedValue(cat.name)+"/"+formattedValue(subCat)}>
                   <div  className="hover:bg-[#f2f2f2] px-2 py-2 rounded-lg text-[12px] cursor-pointer ">{subCat}</div>
                </Link>
                  <div className=" border-b-[#f2f2f2] border-b-1 border-b-rounded-full "></div>
