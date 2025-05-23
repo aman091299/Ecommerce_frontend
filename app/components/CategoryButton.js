@@ -24,7 +24,7 @@ const categories = [
   {
     name: "Fish & Seafood",
     icon: "https://cti.farziengineer.co/hosted/Fish_NEW_Category_Icon_88_x_88_px-3679f8146cab.png",
-    dropdown: ["Fish Fillets", "Shellfish", "Crustaceans"],
+    dropdown: ["ALL","Fish Fillets", "Shellfish", "Crustaceans"],
   },
   {
     name: "Prawns",
@@ -155,7 +155,7 @@ setTimeout(checkScroll, 200);
                <div className="hidden z-100 rounded-lg absolute top-[179px] w-32 shadow-md bg-white px-2 py-3 group-hover:block ">
                {cat?.dropdown?.map((subCat,index)=>(
                 <div key={index}>
-                <Link href={"/collection/"+(cat.name).toLowerCase()+"/"+subCat.toLowerCase()}>
+                <Link href={"/collection/"+(cat.name).trim().replace(/&/g, 'and').replace(/'/g, '').replace(/\s+/g, "-").toLocaleLowerCase()+"/"+subCat.trim().replace(/&/g, 'and').replace(/'/g, '').replace(/\s+/g, "-").toLocaleLowerCase()}>
                   <div  className="hover:bg-[#f2f2f2] px-2 py-2 rounded-lg text-[12px] cursor-pointer ">{subCat}</div>
                </Link>
                  <div className=" border-b-[#f2f2f2] border-b-1 border-b-rounded-full "></div>
