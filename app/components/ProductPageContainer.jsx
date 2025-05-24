@@ -1,21 +1,69 @@
 import Image from "next/image";
 import { useState } from "react";
-const text =
-  "Chicken Curry Cut : 500g Chicken Boneless Thigh : 450g Deveined & Cleaned Med Prawns : 500g Get ready to satisfy your cravings with the ultimate combo for meat lovers - our tantalising fusion of Chicken and Prawns. Indulge in this mouthwatering combination that brings together the best of land and sea, delivering an unforgettable culinary experience.";
+import { useDispatch ,useSelector} from "react-redux";
+import { addItemsInAddToCart } from "../store/cartSlice";
 
-const ProductPageContainer = ({image,name,combo,serves,actualPrice,price,howToCook,description}) => {
+const ProductPageContainer = ({
+  image,
+  name,
+  combo,
+  serves,
+  actualPrice,
+  price,
+  howToCook,
+  description,
+  _id,
+}) => {
   const [isShowText, setIsShowText] = useState(false);
+  const cartItems=useSelector(store=>store.cart.cartItems);
+ const  productDetails=cartItems.length?cartItems?.filter((item)=> {return   item?._id ===_id }):[];
+  const showQuantityInAddToCart=productDetails?.[0]?.itemQuantity || 0;
+  const dispatch = useDispatch();
 
+  const addItemsToCart = () => {
+    console.log("inside add items product container 1", _id);
+    if (showQuantityInAddToCart === 0) {
+      
+      dispatch(
+        addItemsInAddToCart({
+          itemQuantity: showQuantityInAddToCart + 1,
+          name: name,
+          price: price,
+          _id: _id,
+        })
+      );
+    }
+  };
+  const updateItemToCart = (cartfuncName) => {
+    if (cartfuncName === "addProductQuantity") {
+      dispatch(
+        addItemsInAddToCart({
+          itemQuantity: showQuantityInAddToCart + 1,
+          name: name,
+          price: price,
+          _id: _id,
+        })
+      );
+    }
+    if (
+      showQuantityInAddToCart > 0 &&
+      cartfuncName === "removeProductQuantity"
+    ) {
+      dispatch(
+        addItemsInAddToCart({
+          itemQuantity: showQuantityInAddToCart - 1,
+          name: name,
+          price: price,
+          _id: _id,
+        })
+      );
+    }
+  };
   return (
     <div className="h-full">
       <div className="flex gap-6 w-full">
         <div className="w-1/2 px-4 py-4 bg-white shadow-sm rounded">
-          <Image
-            src={image[0]} 
-            alt="Product Image"
-            height={500}
-            width={600}
-          />
+          <Image src={image[0]} alt="Product Image" height={500} width={600} />
 
           <Image
             src={image[0]}
@@ -28,7 +76,10 @@ const ProductPageContainer = ({image,name,combo,serves,actualPrice,price,howToCo
           <div>
             <div className="text-sm">
               {!isShowText ? (
-                <span>{description.substring(0, 256)}{description.length > 255 && "..."}</span>
+                <span>
+                  {description.substring(0, 256)}
+                  {description.length > 255 && "..."}
+                </span>
               ) : (
                 <span>{description} </span>
               )}
@@ -37,16 +88,15 @@ const ProductPageContainer = ({image,name,combo,serves,actualPrice,price,howToCo
               className="text-orange-600 text-sm cursor-pointer"
               onClick={() => setIsShowText((prev) => !prev)}
             >
-              {description.length > 255 && (!isShowText ? "read more" : "read less")}
+              {description.length > 255 &&
+                (!isShowText ? "read more" : "read less")}
             </div>
           </div>
         </div>
         <div className="w-1/2">
           <div className="bg-[#f8f4f2]  shadow-sm w-full ">
             <div className="bg-white  px-4 py-4  rounded">
-              <div className="font-semibold text-xl">
-               {name}
-              </div>
+              <div className="font-semibold text-xl">{name}</div>
               <div className="text-sm font-semibold text-[#a9a9a9] py-1">
                 Super Saver Meal
               </div>
@@ -69,13 +119,40 @@ const ProductPageContainer = ({image,name,combo,serves,actualPrice,price,howToCo
                   ₹{actualPrice}.00
                 </span>
               </div>
-              <button className="btn btn-neutral">
-                                        <svg width="16" height="16" viewBox="0 0 15 15"
-             fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.50008 4.25008H10.6306L10.9222 3.08341H3.66675V1.91675H11.6701C11.7588 1.91675 11.8463 1.93697 11.9259 1.97586C12.0056 2.01476 12.0754 2.0713 12.1299 2.14121C12.1845 2.21111 12.2224 2.29253 12.2408 2.37928C12.2591 2.46603 12.2575 2.55582 12.2359 2.64183L10.7776 8.47516C10.746 8.60131 10.6731 8.71328 10.5706 8.79328C10.4681 8.87329 10.3418 8.91674 10.2117 8.91675H1.91675C1.76204 8.91675 1.61367 8.85529 1.50427 8.74589C1.39487 8.6365 1.33341 8.48812 1.33341 8.33341V1.33341H0.166748V0.166748H1.91675C2.07146 0.166748 2.21983 0.228206 2.32923 0.337602C2.43862 0.446999 2.50008 0.595372 2.50008 0.750081V4.25008ZM2.50008 12.4167C2.19066 12.4167 1.89392 12.2938 1.67512 12.075C1.45633 11.8562 1.33341 11.5595 1.33341 11.2501C1.33341 10.9407 1.45633 10.6439 1.67512 10.4251C1.89392 10.2063 2.19066 10.0834 2.50008 10.0834C2.8095 10.0834 3.10625 10.2063 3.32504 10.4251C3.54383 10.6439 3.66675 10.9407 3.66675 11.2501C3.66675 11.5595 3.54383 11.8562 3.32504 12.075C3.10625 12.2938 2.8095 12.4167 2.50008 12.4167ZM9.50008 12.4167C9.19066 12.4167 8.89392 12.2938 8.67512 12.075C8.45633 11.8562 8.33341 11.5595 8.33341 11.2501C8.33341 10.9407 8.45633 10.6439 8.67512 10.4251C8.89392 10.2063 9.19066 10.0834 9.50008 10.0834C9.8095 10.0834 10.1062 10.2063 10.325 10.4251C10.5438 10.6439 10.6667 10.9407 10.6667 11.2501C10.6667 11.5595 10.5438 11.8562 10.325 12.075C10.1062 12.2938 9.8095 12.4167 9.50008 12.4167Z"
-
-              fill="white"></path></svg>
-              Add to Cart
-              </button>
+              {showQuantityInAddToCart === 0 ? (
+                <button
+                  className="btn btn-neutral hover:bg-orange-600 hover:border-orange-600"
+                  onClick={addItemsToCart}
+                >
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 15 15"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M2.50008 4.25008H10.6306L10.9222 3.08341H3.66675V1.91675H11.6701C11.7588 1.91675 11.8463 1.93697 11.9259 1.97586C12.0056 2.01476 12.0754 2.0713 12.1299 2.14121C12.1845 2.21111 12.2224 2.29253 12.2408 2.37928C12.2591 2.46603 12.2575 2.55582 12.2359 2.64183L10.7776 8.47516C10.746 8.60131 10.6731 8.71328 10.5706 8.79328C10.4681 8.87329 10.3418 8.91674 10.2117 8.91675H1.91675C1.76204 8.91675 1.61367 8.85529 1.50427 8.74589C1.39487 8.6365 1.33341 8.48812 1.33341 8.33341V1.33341H0.166748V0.166748H1.91675C2.07146 0.166748 2.21983 0.228206 2.32923 0.337602C2.43862 0.446999 2.50008 0.595372 2.50008 0.750081V4.25008ZM2.50008 12.4167C2.19066 12.4167 1.89392 12.2938 1.67512 12.075C1.45633 11.8562 1.33341 11.5595 1.33341 11.2501C1.33341 10.9407 1.45633 10.6439 1.67512 10.4251C1.89392 10.2063 2.19066 10.0834 2.50008 10.0834C2.8095 10.0834 3.10625 10.2063 3.32504 10.4251C3.54383 10.6439 3.66675 10.9407 3.66675 11.2501C3.66675 11.5595 3.54383 11.8562 3.32504 12.075C3.10625 12.2938 2.8095 12.4167 2.50008 12.4167ZM9.50008 12.4167C9.19066 12.4167 8.89392 12.2938 8.67512 12.075C8.45633 11.8562 8.33341 11.5595 8.33341 11.2501C8.33341 10.9407 8.45633 10.6439 8.67512 10.4251C8.89392 10.2063 9.19066 10.0834 9.50008 10.0834C9.8095 10.0834 10.1062 10.2063 10.325 10.4251C10.5438 10.6439 10.6667 10.9407 10.6667 11.2501C10.6667 11.5595 10.5438 11.8562 10.325 12.075C10.1062 12.2938 9.8095 12.4167 9.50008 12.4167Z"
+                      fill="white"
+                    ></path>
+                  </svg>
+                  Add to Cart
+                </button>
+              ) : (
+                <div className="flex gap-5 bg-orange-600 rounded px-4 text-white py-1 text-2xl">
+                                    <button
+                    onClick={() => updateItemToCart("removeProductQuantity")}
+                  >
+                    -
+                  </button>
+                  <div>{showQuantityInAddToCart}</div>
+                  <button
+                    onClick={() => updateItemToCart("addProductQuantity")}
+                  >
+                    +
+                  </button>
+                </div>
+              )}
             </div>
           </div>
           <div className="mt-4 w-full">
@@ -136,7 +213,6 @@ const ProductPageContainer = ({image,name,combo,serves,actualPrice,price,howToCo
                 <span>Get Free Delivery on purchase above Rs 699/-</span>
               </div>
             </div>
-
           </div>
         </div>
       </div>

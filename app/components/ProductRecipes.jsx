@@ -2,6 +2,7 @@ import Image from "next/image";
 import { useState } from "react";
 
 const ProductRecipes = ({recipesInfo,moreInfo,nutritionInfo}) => {
+
   const [activeIndex, setActiveIndex] = useState(0);
   return (
     <div className="flex justify-between shadow-sm mt-10 w-full px-4 py-4">
@@ -39,7 +40,7 @@ const ProductRecipes = ({recipesInfo,moreInfo,nutritionInfo}) => {
           )}
           {activeIndex === 1 && (
             <div>
-              <div className="font-semibold py-2">  {moreInfo.heading}</div>
+              <div className="font-semibold py-2">  {moreInfo?.heading}</div>
               <ul className="list-disc pl-5 text-sm">
                  {moreInfo?.content?.map((list,index)=>{
                  
@@ -50,7 +51,7 @@ const ProductRecipes = ({recipesInfo,moreInfo,nutritionInfo}) => {
           )}
           {activeIndex === 2 && (
             <div>
-              <div className="font-semibold py-2">  {recipesInfo.heading}</div>
+              <div className="font-semibold py-2">  {recipesInfo?.heading}</div>
               <ul className="list-disc pl-5 text-sm">
                   {recipesInfo?.content?.map((list,index)=>{
                  
@@ -62,7 +63,7 @@ const ProductRecipes = ({recipesInfo,moreInfo,nutritionInfo}) => {
         </div>
       </div>
       <div>
-      {activeIndex===0 &&
+      {activeIndex===0 &&nutritionInfo?.image&&
          <Image
           src={nutritionInfo?.image}
           alt="Product Nutrition Image"
@@ -70,7 +71,7 @@ const ProductRecipes = ({recipesInfo,moreInfo,nutritionInfo}) => {
           width={800}
         />
       }
-       {activeIndex===1 &&
+       {activeIndex===1 &&moreInfo?.image&&
             <Image
           src={moreInfo?.image}
           alt="Product Recipes Image"
@@ -78,7 +79,7 @@ const ProductRecipes = ({recipesInfo,moreInfo,nutritionInfo}) => {
           width={800}
         />
         }
-        {activeIndex===2 &&
+        {activeIndex===2 &&recipesInfo?.image&&
           <Image
           src={recipesInfo?.image}
           alt="Product Recipes Image"

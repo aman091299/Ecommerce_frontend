@@ -53,8 +53,8 @@ setTimeout(checkScroll, 200);
   }
 
   return (
-    <div ref={scrollRef} className="shadow-lg overflow-x-auto scroll-smooth scrollbar-hide cursor-pointer">
-      <div className="mx-2 flex items-center justify-center w-[1550px] h-24 ">
+    <div ref={scrollRef} className=" overflow-x-auto scroll-smooth scrollbar-hide cursor-pointer pt-20">
+      <div className="mx-2 shadow-lg flex items-center justify-center w-[1550px] h-24 ">
         {categories.map((cat) => (
           <div
             key={cat.name}

@@ -27,9 +27,7 @@ const page = () => {
     .replace(/\band\b/g, "&") // Replace 'and' with '&'
     .replace(/\b\w/g, (char) => char.toUpperCase()); // Capitalize each word;
 
-     console.log(collectionName)
-
-
+   
   const formatedTagName = params?.slug[1];
   const tagName = formatedTagName
     ?.replace(/-/g, " ") // Replace dashes with spaces
@@ -171,7 +169,7 @@ const page = () => {
   }
 
   return (
-    <div className="mx-12 my-4">
+    <div className="mx-12 pt-25">
       <p>
         <Link href="/">
           <span className="hover:text-orange-600"> Home </span>
