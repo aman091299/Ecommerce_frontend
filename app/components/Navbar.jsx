@@ -4,19 +4,67 @@ import Link from "next/link"
 import { useSelector, useDispatch  } from "react-redux"
 import { setIsShowCartModal } from "../store/cartSlice"
 import CartModal from "./CartModal"
+import { setLoginPage } from "../store/loginSlice"
+import LoginModal from "./LoginModal"
+import axios from "axios"
+import { BASE_URL } from "../utils/constants"
+import { useEffect } from "react"
+import { getALLCartItems,getUserData } from "../utils/userCartFunc"
+
 
 const Navbar = () => {
   const cart=useSelector(store=>store.cart.cartItems);
+  const user=useSelector(store=>store.user);
+  console.log("inside nav bar",cart)
+  console.log("user data...",user)
+
   const dispatch=useDispatch();
 
+
+  useEffect(()=>{
+  getALLCartItems(dispatch);
+ },[cart?.length])
+
+  useEffect(()=>{
+   getUserData(dispatch);
+ },[])
   const handleRemoveFocus=()=>{
      document.activeElement.blur()
   }
   const handleCartModal=()=>{
      dispatch(setIsShowCartModal(true))
   }
+  
+  const logoutHandler = async () => {
+   
+    handleRemoveFocus();
+    try {
+      const res = await axios.post(
+        BASE_URL + "/logout",{},{
+          withCredentials:true,
+        }
+      );
+       getALLCartItems(dispatch);
+        getUserData(dispatch);
+      dispatch(removeUser());
+       
+      
+    } catch (error) {
+      return console.log("Error" + error.message);
+    }
+  };
+
+  const handleLoginModal=()=>{
+    handleRemoveFocus();
+    dispatch(setLoginPage(true));
+  }
+
+  
+
+
+
   return (
-    <div>
+    <div className="relative">
     <div className="navbar shadow-sm grid grid-cols-14 bg-base-content h-20 px-20 fixed z-800">
   <div className="flex-1 col-span-6 ">
   <Link href="/">
@@ -32,29 +80,77 @@ const Navbar = () => {
     <input type="text" placeholder="Search for seafood , chicken and more" className="input input-bordered w-24 md:w-80 focus:outline-none rounded-full" />
     <div className="flex items-center gap-15">
     <div className="dropdown dropdown-end ">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar" >
-        <div className="w-10 rounded-full">
-        
-          <img
-            alt="Navbar component"
-            src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-           
+      <div tabIndex={0} role="button"  >
+        <div className="text-white flex items-center gap-1">
+       {user ?
+       <span className="text-medium">
+       {user?.firstName?.toUpperCase() }
+       {" "}
+       {user?.lastName?.toUpperCase() }
+       </span> :
+       <span>LOGIN </span>}
+              <svg 
+              width="16" 
+              height="10" 
+              viewBox="0 0 16 10" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg">
+              <path 
+              d="M6.99999 5.17192L11.95 0.221924L13.364 1.63592L6.99999 7.99992L0.635986 1.63592L2.04999 0.221924L6.99999 5.17192Z" 
+              fill="#fff">
+              </path>
+              </svg>
         </div>
       </div>
       <ul
         tabIndex={0}
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-        <li>
-          <a className="justify-between"  onClick={handleRemoveFocus}>
+        className="menu-sm dropdown-content bg-base-100 rounded-box z-1 -right-30 top-13 w-70  shadow">
+         <li className=" py-2 px-4">
+         {user ? 
+        <div className="flex flex-col gap-3 items-start" >
+          <div className="font-semibold text-lg"> Welcome {user?.firstName}{" "}{user?.lastName}</div>
+          {!user &&
+          <div className="text-[10px] text-[#707479]"> 
+           Register to enjoy the best features, offers and more
+           </div>
+           }
+         </div>:
+          <div className="flex flex-col gap-3 items-start" >
+          <div className="font-semibold text-xl"> Hello Guest</div>
+          <div className="text-[10px] text-[#707479]"> 
+           Register to enjoy the best features, offers and more
+           </div>
+           
+           <div 
+           className="bg-orange-600 px-8 py-1 rounded text-white" 
+           onClick={handleLoginModal}>Login
+           </div>
+           
+          </div>
+         }
+        </li>
+        {user&&
+        <li className="border-b-1 border-[#ebebeb] py-2  px-4"
+        onClick={handleRemoveFocus} >
+          <a className="justify-between" >
             Profile
           </a>
         </li>
-        <li><a  onClick={handleRemoveFocus}>Settings</a></li>
-        <li><a  onClick={handleRemoveFocus}>Logout</a></li>
+        }
+          {user&&
+        <li className="border-b-1 border-[#ebebeb] py-2  px-4">
+        <a  onClick={handleRemoveFocus}>Settings</a>
+        </li>}
+         {user&& <li className=" py-2  px-4"><a  onClick={logoutHandler}>
+         Logout
+         </a>
+         </li>
+          }
       </ul>
     </div>
+    
     <div className="flex gap-5 relative items-center" onClick={handleCartModal}> 
-       <div className="text-black text-center absolute bottom-5 left-3 bg-white  rounded-full w-6 h-6">{cart.length}</div>
+       <div className="text-black text-center absolute bottom-5 left-3 bg-white  rounded-full w-6 h-6">{cart?.length}</div>
        <svg width="21" height="21" viewBox="0 0 21 21" fill="none" xmlns="http://www.w3.org/2000/svg">
        <path d="M2 14V2H0V0H3C3.26522 0 3.51957 0.105357 3.70711 0.292893C3.89464 0.48043 4 0.734784 4 1V13H16.438L18.438 5H6V3H19.72C19.872 3 20.022 3.03466 20.1586 3.10134C20.2952 3.16801 20.4148 3.26495 20.5083 3.38479C20.6019 3.50462 20.6668 3.6442 20.6983 3.79291C20.7298 3.94162 20.7269 4.09555 20.69 4.243L18.19 14.243C18.1358 14.4592 18.011 14.6512 17.8352 14.7883C17.6595 14.9255 17.4429 15 17.22 15H3C2.73478 15 2.48043 14.8946 2.29289 14.7071C2.10536 14.5196 2 14.2652 2 14ZM4 21C3.46957 21 2.96086 20.7893 2.58579 20.4142C2.21071 20.0391 2 19.5304 2 19C2 18.4696 2.21071 17.9609 2.58579 17.5858C2.96086 17.2107 3.46957 17 4 17C4.53043 17 5.03914 17.2107 5.41421 17.5858C5.78929 17.9609 6 18.4696 6 19C6 19.5304 5.78929 20.0391 5.41421 20.4142C5.03914 20.7893 4.53043 21 4 21ZM16 21C15.4696 21 14.9609 20.7893 14.5858 20.4142C14.2107 20.0391 14 19.5304 14 19C14 18.4696 14.2107 17.9609 14.5858 17.5858C14.9609 17.2107 15.4696 17 16 17C16.5304 17 17.0391 17.2107 17.4142 17.5858C17.7893 17.9609 18 18.4696 18 19C18 19.5304 17.7893 20.0391 17.4142 20.4142C17.0391 20.7893 16.5304 21 16 21Z" fill="#EBEBEB">
 
@@ -65,6 +161,7 @@ const Navbar = () => {
    </div>
   </div>
 </div>
+   <LoginModal/>
   <CartModal/>
 </div>
   )

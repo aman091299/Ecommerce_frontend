@@ -1,8 +1,11 @@
+"use client"
 import Image from "next/image";
 import { useState } from "react";
 import { useDispatch ,useSelector} from "react-redux";
 import { addItemsInAddToCart } from "../store/cartSlice";
-
+import { createCart } from "../utils/constants";
+import SmallLoader from "./SmallLoader";
+import { useMemo } from "react";
 const ProductPageContainer = ({
   image,
   name,
@@ -15,58 +18,57 @@ const ProductPageContainer = ({
   _id,
 }) => {
   const [isShowText, setIsShowText] = useState(false);
-  const cartItems=useSelector(store=>store.cart.cartItems);
- const  productDetails=cartItems.length?cartItems?.filter((item)=> {return   item?._id ===_id }):[];
-  const showQuantityInAddToCart=productDetails?.[0]?.itemQuantity || 0;
-  const dispatch = useDispatch();
+   const dispatch = useDispatch();
+  const [loading,setLoading]=useState(false);
 
-  const addItemsToCart = () => {
-    console.log("inside add items product container 1", _id);
-    if (showQuantityInAddToCart === 0) {
-      
-      dispatch(
+
+  const cartItems=useSelector(store=>store.cart.cartItems);
+
+ const  productDetails=useMemo(()=>{
+  return cartItems.length?cartItems?.filter((item)=> (  item?._id ===_id )):[]
+
+ },[cartItems,_id]);
+ const  quantityInCart  =productDetails?.[0]?.itemQuantity || 0;
+ 
+
+
+
+
+  const handleCartUpdate =async (type) => {
+       
+         
+           let newQuantity=quantityInCart;
+       if (type === "add") {
+      newQuantity +=1;
+    }
+     
+    if (quantityInCart > 0 &&  type === "remove") {
+                 newQuantity -=1;
+    }
+     if (newQuantity < 0) newQuantity = 0
+    const data=await createCart(_id,newQuantity,setLoading);
+    if(data){
+        dispatch(
         addItemsInAddToCart({
-          itemQuantity: showQuantityInAddToCart + 1,
+          itemQuantity: newQuantity,
           name: name,
           price: price,
           _id: _id,
         })
       );
+         }
     }
-  };
-  const updateItemToCart = (cartfuncName) => {
-    if (cartfuncName === "addProductQuantity") {
-      dispatch(
-        addItemsInAddToCart({
-          itemQuantity: showQuantityInAddToCart + 1,
-          name: name,
-          price: price,
-          _id: _id,
-        })
-      );
-    }
-    if (
-      showQuantityInAddToCart > 0 &&
-      cartfuncName === "removeProductQuantity"
-    ) {
-      dispatch(
-        addItemsInAddToCart({
-          itemQuantity: showQuantityInAddToCart - 1,
-          name: name,
-          price: price,
-          _id: _id,
-        })
-      );
-    }
-  };
+   
+
+  
   return (
     <div className="h-full">
       <div className="flex gap-6 w-full">
         <div className="w-1/2 px-4 py-4 bg-white shadow-sm rounded">
-          <Image src={image[0]} alt="Product Image" height={500} width={600} />
+          <Image src={image[0] || "/default-placeholder.png"} alt="Product Image" height={500} width={600} />
 
           <Image
-            src={image[0]}
+            src={image[0]|| "/default-placeholder.png"}
             alt="Product Image"
             height={100}
             width={100}
@@ -119,10 +121,10 @@ const ProductPageContainer = ({
                   ₹{actualPrice}.00
                 </span>
               </div>
-              {showQuantityInAddToCart === 0 ? (
+              {quantityInCart === 0 ? (
                 <button
-                  className="btn btn-neutral hover:bg-orange-600 hover:border-orange-600"
-                  onClick={addItemsToCart}
+                  className="btn btn-neutral cursor-pointer hover:bg-orange-600 hover:border-orange-600"
+                  onClick={()=>handleCartUpdate('add')}
                 >
                   <svg
                     width="16"
@@ -136,18 +138,18 @@ const ProductPageContainer = ({
                       fill="white"
                     ></path>
                   </svg>
-                  Add to Cart
+                  {loading?<SmallLoader/>:'Add to Cart'}
                 </button>
               ) : (
-                <div className="flex gap-5 bg-orange-600 rounded px-4 text-white py-1 text-2xl">
+                <div className="flex gap-5 bg-orange-600 rounded px-4 text-white py-1 text-2xl cursor-pointer">
                                     <button
-                    onClick={() => updateItemToCart("removeProductQuantity")}
+                    onClick={() =>handleCartUpdate("remove")}
                   >
                     -
                   </button>
-                  <div>{showQuantityInAddToCart}</div>
+                  <div>  {loading?<SmallLoader/>:quantityInCart}</div>
                   <button
-                    onClick={() => updateItemToCart("addProductQuantity")}
+                    onClick={() => handleCartUpdate("add")}
                   >
                     +
                   </button>

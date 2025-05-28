@@ -1,3 +1,4 @@
+"use client"
 import Heading from "./Heading";
 import Testmonial from "./Testmonial";
 import {useRef,useState} from 'react';

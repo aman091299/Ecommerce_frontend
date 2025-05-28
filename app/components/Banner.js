@@ -1,3 +1,4 @@
+'use client'
 import Image from "next/image";
 import {useEffect, useState} from 'react'
 const bannerImages=[{
@@ -31,18 +32,18 @@ useEffect(()=>{
         return <div className="flex justify-between items-center w-full h-[310px] ">Loading...</div>
        }
     return(
-       <div className=" w-full h-[310px] overflow-hidden">
+       <div className=" w-full h-[300px] overflow-hidden">
       <div
         className="flex transition-transform duration-700 ease-in-out" // Changed: smooth scroll animation
         style={{ transform: `translateX(-${currentIndex * 100}%)` }} // Changed: shift container to show current image
       >
         {bannerImages?.map((bannerImg,index)=>(
-          <div key={index} className="min-w-full h-[400px] "> {/* Changed: make each slide full width */}
+          <div key={index} className="min-w-full h-[300px] relative "> {/* Changed: make each slide full width */}
                  <Image  src={bannerImg?.img1} 
-                     height={400} 
-                     width={1340} 
+                   fill
                      alt="banner Images"
                         className="object-cover"
+                         priority
                 //    className={(currentIndex ===index)?"block ":"hidden "+"object-cover transition-all duration-500 ease-in-out cursor-pointer"}
                     // layout="responsive"
                      />

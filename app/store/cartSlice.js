@@ -8,7 +8,6 @@ const cartSlice=createSlice({
     },
     reducers:{
         addItemsInAddToCart:(state,action)=>{
-        
           const index=state.cartItems.findIndex((item)=>(item._id === action.payload._id) );
          if(index !==-1 && action.payload.itemQuantity===0) {
         state.cartItems.splice(index,1);
@@ -22,6 +21,10 @@ const cartSlice=createSlice({
         },
         setIsShowCartModal:(state,action)=>{
            state.isShowCartModal=action.payload;
+        },
+        addFullCartItems:(state,action)=>{
+          console.log("action.payload in cart slice",action.payload);
+              state.cartItems=action.payload;
         }
        
       
@@ -29,6 +32,6 @@ const cartSlice=createSlice({
 })
 
 
-export const {addItemsInAddToCart,removeItemsFromAddToCart,setIsShowCartModal}=cartSlice.actions;
+export const {addItemsInAddToCart,removeItemsFromAddToCart,setIsShowCartModal, addFullCartItems}=cartSlice.actions;
 
 export default cartSlice.reducer;

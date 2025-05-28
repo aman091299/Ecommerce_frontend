@@ -1,9 +1,11 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formattedValue } from "../utilis/constants";
-import { useState } from "react";
+import { formattedValue } from "../utils/constants";
+import { useState,useMemo } from "react";
 import { useDispatch,useSelector } from "react-redux";
+import {createCart} from "../utils/constants"
 import { addItemsInAddToCart } from "../store/cartSlice";
+import SmallLoader from "./SmallLoader";
 
 const ProductCard = ({
   image,
@@ -16,55 +18,46 @@ const ProductCard = ({
   _id,
 }) => {
 
-    const cartItems=useSelector(store=>store.cart.cartItems);
-
-    const  productDetails=cartItems.length?cartItems?.filter((item)=> {
-       return   item?._id ===_id
-    }):[];
-    const showQuantityInAddToCart=productDetails?.[0]?.itemQuantity || 0;
+   const [loading,setLoading]=useState(false);
+   const dispatch=useDispatch();
    
+     const cartItems=useSelector(store=>store.cart.cartItems);
+   
+    const  productDetails=useMemo(()=>{
+     return cartItems.length?cartItems?.filter((item)=> (  item?._id ===_id )):[]
+   
+    },[cartItems,_id]);
+    const  quantityInCart  =productDetails?.[0]?.itemQuantity || 0;
     
-  const dispatch = useDispatch();
-
-  const addItemsToCart = () => {
-    if (showQuantityInAddToCart === 0) {
-      dispatch(
-        addItemsInAddToCart({
-          itemQuantity: showQuantityInAddToCart + 1,
-          name: name,
-          price: price,
-          _id: _id,
-            combo:  combo,
-              actualPrice:  actualPrice,
-        })
-      );
-    }
-  };
-  const updateItemToCart = (cartfuncName) => {
-    if (cartfuncName === "addProductQuantity") {
-     
-      dispatch(
-        addItemsInAddToCart({
-          itemQuantity: showQuantityInAddToCart + 1,
-          _id: _id,
+   
+   
+   
+   
+     const handleCartUpdate =async (type) => {
           
-        })
-      );
-    }
-    if (
-      showQuantityInAddToCart > 0 &&
-      cartfuncName === "removeProductQuantity"
-    ) {
-    
-      dispatch(
-        addItemsInAddToCart({
-          itemQuantity: showQuantityInAddToCart - 1,
-          _id: _id,
+            
+              let newQuantity=quantityInCart;
+          if (type === "add") {
+         newQuantity +=1;
+       }
+        
+       if (quantityInCart > 0 &&  type === "remove") {
+                    newQuantity -=1;
+       }
+        if (newQuantity < 0) newQuantity = 0
+       const data=await createCart(_id,newQuantity,setLoading);
+       if(data){
+           dispatch(
+           addItemsInAddToCart({
+             itemQuantity: newQuantity,
+             name: name,
+             price: price,
+             _id: _id,
+           })
+         );
+            }
+       }
       
-        })
-      );
-    }
-  };
 
   const formattedName = formattedValue(name);
   return (
@@ -73,7 +66,7 @@ const ProductCard = ({
         <Link href={"/product/" + formattedName}>
           <figure className="relatives">
             <Image
-              src={image[0]}
+              src={image[0] ||"/default-placeholder.png"}
               height={600}
               width={1090}
               alt="Product image"
@@ -87,6 +80,8 @@ const ProductCard = ({
           </figure>
         </Link>
         <div className="card-body p-1">
+         <Link href={"/product/" + formattedName}>
+          <div>
           <h2 className="card-title text-sm py-3">{name}</h2>
           <div className="flex gap-4 py-1 ">
             <div className="bg-blue-100 text-blue-400 text-sm px-1">
@@ -99,7 +94,10 @@ const ProductCard = ({
           <p className=" text-[#a9a9a9] w-64 h-17 text-sm line-clamp-3">
             {description}
           </p>
+          </div>
+          </Link>
           <div className="flex justify-between py-2">
+           <Link href={"/product/" + formattedName}>
             <div className="flex items-center">
               <span className="font-semibold text-[12px]">₹{price}.00</span>
               <span
@@ -109,11 +107,12 @@ const ProductCard = ({
                 ₹{actualPrice}.00
               </span>
             </div>
+          </Link>
             <div>
-              {showQuantityInAddToCart === 0 ? (
+              {quantityInCart === 0 ? (
                 <button
-                  className="btn btn-neutral text-[12px] flex items-center hover:bg-orange-600 hover:border-orange-600"
-                  onClick={addItemsToCart}
+                  className="btn btn-neutral text-[12px] flex items-center hover:bg-orange-600 hover:border-orange-600 cursor-pointer"
+                  onClick={()=>handleCartUpdate('add')}
                 >
                   <svg
                     className="flex items-center my-auto"
@@ -128,24 +127,25 @@ const ProductCard = ({
                       fill="white"
                     ></path>
                   </svg>
-                  ADD TO CART
+                {loading?<SmallLoader/>:'ADD TO CART'}  
                 </button>
               ) : (
-                <div className="flex items-center gap-5 bg-orange-600 rounded px-2 py-0.5  text-white  text-2xl">
+                <div className="flex items-center gap-5 bg-orange-600 rounded px-2 py-0.5  text-white  text-2xl cursor-pointer">
                      <button
-                    onClick={() => updateItemToCart("removeProductQuantity")}
+                  onClick={()=>handleCartUpdate('remove')}
                   >
                     -
                   </button>
-                  <div>{showQuantityInAddToCart}</div>
+                  <div>{loading?<SmallLoader/>:quantityInCart}</div>
                <button
-                    onClick={() => updateItemToCart("addProductQuantity")}
+                  onClick={()=>handleCartUpdate('add')}
                   >
                     +
                   </button>
                 </div>
               )}
             </div>
+
           </div>
         </div>
       </div>

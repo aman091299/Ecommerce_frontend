@@ -1,4 +1,4 @@
-'use client'
+
 
 import SpotLightContainer from "./components/SpotLightContainer";
 import Banner from "./components/Banner";

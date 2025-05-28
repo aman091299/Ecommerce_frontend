@@ -1,25 +1,30 @@
-'use client'
+
 import ProductPageContainer from '@/app/components/ProductPageContainer';
 import ProductRecipes from '@/app/components/ProductRecipes';
-import { useParams } from 'next/navigation'
-import axios from 'axios';
-import { BASE_URL } from '@/app/utilis/constants';
-import { useEffect ,useState } from 'react';
+import { BASE_URL } from '@/app/utils/constants';
 
-const Product=()=>{
-  const [product,setProduct]=useState([]);
-    const {slug}=useParams();
- 
- 
-     const productData=async()=>{
-        const data=await axios.get(BASE_URL+"/product/view/"+slug);
-        setProduct(data.data.product);
+import Loader from '@/app/components/Loader';
+
+  const productData=async(slug)=>{
+    console.log("slug",slug)
+      try {
+         const res=await fetch(BASE_URL+"/product/view/"+slug);
+    
+         const data=await res.json();
+        
+            return data.product ;
+      } catch (error) {
+        console.log("Error while fetching a particular product : ",error);
+        return {};
+      }
+       
      }
-    useEffect(()=>{
-         productData();
-    },[])
+const Product=async({params})=>{
+ const { slug } =await params;
+const product=await productData(slug);
+ 
      if (!product) {
-    return <div className="flex justify-center items-center pt-34">Loading...</div>;
+    return <div className="relative w-screen h-150"><Loader/></div>;
   }
       if (Object.keys(product).length === 0) {
     return <div className="flex justify-center items-center pt-34">No Products</div>;

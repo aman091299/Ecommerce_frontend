@@ -6,8 +6,11 @@ const CartModal = () => {
   const [isClient, setIsClient] = useState(false);
   const showCartModal = useSelector((store) => store.cart.isShowCartModal);
   const cartItems = useSelector((store) => store.cart.cartItems);
+  
+  let totalSum=0;
 
-  const totalPrice=cartItems.map((item)=>( item.itemQuantity*item.price))
+  cartItems?.map((item)=>( totalSum +=item.itemQuantity*item.price));
+ 
   const dropDownRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -89,7 +92,7 @@ const CartModal = () => {
               "overflow-auto " + (isClient ? "max-h-[calc(100vh-5rem)]" : "")
             }
           >
-            {cartItems.length === 0 ? (
+            {cartItems?.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-screen">
                 <svg
                   width="5rem"
@@ -198,6 +201,9 @@ const CartModal = () => {
                 </div>
               ))
             )}
+            <div className="text-[##282c3f] mx-6 text-lg font-semibold py-2">
+               Grand Totol : ₹{totalSum}.00
+            </div>
           </div>
         </div>
       </div>

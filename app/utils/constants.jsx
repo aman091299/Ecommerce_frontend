@@ -1,3 +1,6 @@
+
+
+
 export const categories = [
   {
     name: "Exclusive Deals",
@@ -217,3 +220,38 @@ export const formattedValue = (name) => {
       .toLowerCase()
   );
 };
+
+export const validate=(value)=>{
+
+}
+
+export  const createCart=async(productId,quantity,setLoading)=>{
+    setLoading(true);
+    try{
+
+     const res = await fetch(BASE_URL + "/cart/addItem", {
+      method: "POST", 
+      credentials: 'include',
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ productId, quantity })
+    });
+    const data=await res.json();
+    if(!data.success){
+     return null
+    }
+    console.log(data);
+    return data.data;
+    }
+    catch(err){
+          console.log("Error while creating or updating cart",err);
+          return null;
+    }finally{
+      setLoading(false)
+    }
+   
+   }
+
+
+

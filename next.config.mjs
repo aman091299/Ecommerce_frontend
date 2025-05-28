@@ -34,7 +34,7 @@ const nextConfig = {
         {
         protocol: 'https',
         hostname: 'cti.farziengineer.co',
-        port: '',
+   
         pathname: '/banners/**',
       },
         {
@@ -46,7 +46,6 @@ const nextConfig = {
         {
         protocol: 'https',
         hostname: 'cti.farziengineer.co',
-        port: '',
         pathname: '/products/**',
       },
         {

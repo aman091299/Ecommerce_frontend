@@ -2,7 +2,7 @@
 import Image from "next/image";
 import { useRef,useState } from "react";
 import Link from "next/link";
-import { categories,excludeDropdowns, formattedValue } from "../utilis/constants";
+import { categories,excludeDropdowns, formattedValue } from "../utils/constants";
 
 
 const CategoryButton = () => {

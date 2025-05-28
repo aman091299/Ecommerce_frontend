@@ -1,8 +1,8 @@
 import Heading from "./Heading";
 import Image from "next/image";
-import { categories } from "../utilis/constants";
+import { categories } from "../utils/constants";
 import Link from "next/link";
-import { formattedValue } from "../utilis/constants";
+import { formattedValue } from "../utils/constants";
 
 
 
