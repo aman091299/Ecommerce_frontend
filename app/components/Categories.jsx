@@ -7,6 +7,7 @@ import { formattedValue } from "../utils/constants";
 
 
 const Categories = () => {
+  console.log("inside catogires")
   return (
     <div className="rounded-t-[340px] bg-amber-300 pl-4 mt-10">
     <div className="py-3">

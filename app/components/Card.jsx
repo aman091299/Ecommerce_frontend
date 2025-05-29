@@ -30,7 +30,9 @@ const Card=({image,name,description,price,_id,combo,actualPrice})=>{
                  newQuantity -=1;
     }
      if (newQuantity < 0) newQuantity = 0
-    const data=await createCart(_id,newQuantity,setLoading);
+     setLoading(true);
+    const data=await createCart(_id,newQuantity);
+      setLoading(false);
     if(data){
         dispatch(
         addItemsInAddToCart({

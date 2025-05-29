@@ -8,7 +8,7 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch,useSelector } from "react-redux";
 import { setLoginPage } from "../store/loginSlice";
 import { addUser } from "../store/userSlice";
-import { getALLCartItems } from "../utils/userCartFunc";
+import { getALLCartItems, mergeCart } from "../utils/userCartFunc";
 
 const LoginModal = () => {
   console.log("inside login modal")
@@ -85,7 +85,7 @@ const LoginModal = () => {
   };
 
   async function loginHandler() {
-
+     console.log("Inside login handler")
     setError("");
     try {
       const res = await axios.post(
@@ -103,7 +103,12 @@ const LoginModal = () => {
       if (res?.data?.success) {
         setError('')
         dispatch(addUser(res?.data?.data));
-        getALLCartItems(dispatch);
+        // getALLCartItems(dispatch);
+             console.log("Inside login handler2")
+
+       await mergeCart(dispatch);
+             console.log("Inside login handler3")
+
         setShowToast(true);
         dispatch(setLoginPage(false))
          setEmail("")
@@ -128,13 +133,13 @@ const LoginModal = () => {
   ) : (
     <div>
      <div
-        className={`fixed inset-0 z-[999] bg-white/20 transition-opacity duration-300 ease-in-out ${
+        className={`fixed inset-0 z-[999] bg-white/70 transition-opacity duration-300 ease-in-out ${
          loginModal 
             ? "opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         }`}
       >
-    <div className=" absolute top-1/3 -translate-y-40 right-1/3  z-10000">
+    <div className={" absolute   z-10000 " + (isLogin ? " bottom-1/5 right-1/3" :" top-1/3 -translate-y-40 right-1/3")}>
       <div className="flex justify-center  items-center  ">
         <fieldset className="fieldset  bg-base-200 border-base-300  shadow-lg rounded-box w-100 border px-10 py-3">
           <legend className="fieldset-legend w-full ">

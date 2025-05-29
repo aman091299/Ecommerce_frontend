@@ -1,6 +1,7 @@
 import React from 'react'
 
 const Footer = () => {
+  console.log("inside footer")
   return (
     <div className=" mt-10">
     <footer className="footer sm:footer-horizontal bg-base-200 text-base-content p-10">

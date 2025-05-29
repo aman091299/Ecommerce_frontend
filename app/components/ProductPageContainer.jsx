@@ -45,8 +45,10 @@ const ProductPageContainer = ({
     if (quantityInCart > 0 &&  type === "remove") {
                  newQuantity -=1;
     }
-     if (newQuantity < 0) newQuantity = 0
-    const data=await createCart(_id,newQuantity,setLoading);
+     if (newQuantity < 0) newQuantity = 0;
+     setLoading(true);
+    const data=await createCart(_id,newQuantity);
+    setLoading(false);
     if(data){
         dispatch(
         addItemsInAddToCart({

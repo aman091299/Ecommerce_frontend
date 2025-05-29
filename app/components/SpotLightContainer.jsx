@@ -22,6 +22,7 @@ const getAllProduct = async () => {
 
 
 const SpotLightContainer = async () => {
+  console.log("inside spot light container")
   const products = await getAllProduct();
 
 

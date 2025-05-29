@@ -12,7 +12,7 @@ import TestmonialContainer from "./components/TestmonialContainer";
 import Recipe from "./components/Recipe";
 
 export default function Home() {
- 
+  console.log("inside home")
 
   return (
   <div className="w-full">

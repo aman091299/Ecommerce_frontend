@@ -5,7 +5,7 @@ const loginSlice=createSlice({
     initialState:false,
     reducers:{
         setLoginPage:(state,action)=>{
-            console.log("action",action)
+            
            return action.payload;
         }
     }

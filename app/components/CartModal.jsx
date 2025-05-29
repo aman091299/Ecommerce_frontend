@@ -1,20 +1,24 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setIsShowCartModal, addItemsInAddToCart } from "../store/cartSlice";
 import { useEffect, useRef, useState } from "react";
+import { createCart } from "../utils/constants";
+import SmallLoader from "./SmallLoader";
+import { setLoginPage } from "../store/loginSlice";
 
 const CartModal = () => {
+  console.log("inside cart modal")
   const [isClient, setIsClient] = useState(false);
-  const showCartModal = useSelector((store) => store.cart.isShowCartModal);
-  const cartItems = useSelector((store) => store.cart.cartItems);
-  
-  let totalSum=0;
-
-  cartItems?.map((item)=>( totalSum +=item.itemQuantity*item.price));
- 
-  const dropDownRef = useRef(null);
+  const [loading,setLoading]=useState(null)
+  const [disableDelete,setDisableDelete]=useState(null);
+    const dropDownRef = useRef(null);
   const dispatch = useDispatch();
 
-
+  const showCartModal = useSelector((store) => store.cart.isShowCartModal);
+  const user=useSelector((store)=>store.user);
+  const cartItems = useSelector((store) => store.cart.cartItems);
+  
+ const totalSum= cartItems?.reduce((acc,item)=>(  acc +item.itemQuantity*item.price),0) || 0;
+ 
 
   useEffect(() => {
     if (showCartModal) {
@@ -29,30 +33,49 @@ const CartModal = () => {
     };
   }, [showCartModal]);
 
-  const updateItemToCart = (cartfuncName, itemQuantity, _id) => {
-    if (cartfuncName === "addProductQuantity") {
-      //  setShowQuantityInAddToCart((prev) => prev + 1);
-      dispatch(
+
+
+   const handleCartUpdate =async (type,quantityInCart,name,price,_id) => {
+    let newQuantity=quantityInCart;
+          
+       if (type === "add") {
+      newQuantity +=1;
+    }
+    if (type === 'remove' && quantityInCart <= 0) return;
+    if (quantityInCart > 1 &&  type === "remove") {
+                 newQuantity -=1;
+    }
+     if (newQuantity < 0) newQuantity = 0
+     if(type==='delete'){
+      newQuantity=0;
+     }
+     if(type !== 'delete'){
+     setLoading(_id);
+     }
+
+    const data=await createCart(_id,newQuantity);
+
+    setLoading(null);
+    
+    if(data){
+        dispatch(
         addItemsInAddToCart({
-          itemQuantity: itemQuantity + 1,
+          itemQuantity: newQuantity,
+          name: name,
+          price: price,
           _id: _id,
         })
       );
+         }
     }
-    if (itemQuantity > 1 && cartfuncName === "removeProductQuantity") {
-      //  setShowQuantityInAddToCart((prev) => prev - 1);
-      dispatch(
-        addItemsInAddToCart({
-          itemQuantity: itemQuantity - 1,
-          _id: _id,
-        })
-      );
-    }
-  };
+   
+
+
 
   const handleCartModal = () => {
     dispatch(setIsShowCartModal(false));
   };
+
 
   const clickOutsideCartModal = (event) => {
     if (
@@ -92,7 +115,7 @@ const CartModal = () => {
               "overflow-auto " + (isClient ? "max-h-[calc(100vh-5rem)]" : "")
             }
           >
-            {cartItems?.length === 0 ? (
+            {!cartItems||cartItems?.length === 0 ? (
               <div className="flex flex-col items-center justify-center h-screen">
                 <svg
                   width="5rem"
@@ -117,21 +140,18 @@ const CartModal = () => {
             ) : (
               cartItems?.map((item) => (
                 <div className="px-4 py-6 " key={item._id}>
-                  <div className="shadow-lg px-4 border-1 border-[#ececec] rounded ">
+                  <div className={" shadow-lg px-4 border-1 border-[#ececec] rounded opacity-10 " + (disableDelete===item._id?"opacity-25":"opacity-100")}
+                  disabled={disableDelete===item._id}>
                     <div className="flex justify-between mt-4">
                       <div className="text-black  font-semibold text-sm">
                         {item.name}
                       </div>
                       <div
                         className="px-4"
-                        onClick={() => {
-                          dispatch(
-                            addItemsInAddToCart({
-                              itemQuantity: 0,
-                              _id: item._id,
-                            })
-                          );
-                        }}
+                      onClick={()=>{
+                        setDisableDelete(item._id)
+                        handleCartUpdate('delete',item.itemQuantity,item.name,item.price,item._id)}}
+
                       >
                         <svg
                           width="14"
@@ -164,34 +184,24 @@ const CartModal = () => {
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-4 rounded border-1 border-[#e7e7e7] px-1 ">
+                      <div className="flex items-center gap-4 rounded border-1 border-[#e7e7e7] px-1  ">
                         <button
                           className={
                             "text-2xl " +
                             (item.itemQuantity == "1"
                               ? "text-[#dedede]"
-                              : "text-orange-600")
+                              : "text-orange-600 cursor-pointer")
                           }
-                          onClick={() =>
-                            updateItemToCart(
-                              "removeProductQuantity",
-                              item.itemQuantity,
-                              item._id
-                            )
-                          }
+                          disabled={item.itemQuantity=='1'}
+                      onClick={()=>handleCartUpdate('remove',item.itemQuantity,item.name,item.price,item._id)}
                         >
                           -
                         </button>
-                        <div>{item.itemQuantity}</div>
+                        <div>{loading===item._id?<SmallLoader/>:item.itemQuantity}</div>
                         <button
-                          className=" text-orange-600 text-xl"
-                          onClick={() =>
-                            updateItemToCart(
-                              "addProductQuantity",
-                              item.itemQuantity,
-                              item._id
-                            )
-                          }
+                          className=" text-orange-600 text-xl cursor-pointer"
+                        onClick={()=>handleCartUpdate('add',item.itemQuantity,item.name,item.price,item._id)}
+
                         >
                           +
                         </button>
@@ -201,9 +211,24 @@ const CartModal = () => {
                 </div>
               ))
             )}
-            <div className="text-[##282c3f] mx-6 text-lg font-semibold py-2">
-               Grand Totol : ₹{totalSum}.00
+            <div className="flex py-4 justify-between">
+               <div className="text-[##282c3f] mx-6 text-lg font-semibold py-2">
+               Total : ₹{totalSum}.00 
             </div>
+            <div className="rounded py-2 text-lg font-semibold bg-orange-600 mr-4 text-white cursor-pointer">
+            {!user ?
+               <div className="px-2" onClick={()=>{dispatch(setLoginPage(true))
+                                                                                                                               handleCartModal()}}>
+             PROCEED TO LOGIN
+            </div>
+            :<div className="flex-1 text-lg px-2 " >
+            PROCEED TO CHECKOUT
+            </div>
+            }
+            </div>
+           
+            </div>
+
           </div>
         </div>
       </div>

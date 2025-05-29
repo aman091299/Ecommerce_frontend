@@ -40,7 +40,7 @@ const scrollRef=useRef(null);
       return;
     }
 
-    const scrollAmount = direction ==='left'? -312 : 312
+    const scrollAmount = direction ==='left'? -624 : 624
     // console.log('scroollAmount',scrollAmount)
     scrollRef.current.scrollBy({left:scrollAmount,behavior:"smooth"});
 

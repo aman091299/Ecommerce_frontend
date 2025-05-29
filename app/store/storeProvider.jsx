@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { store } from './store'
 
 export default function StoreProvider({ children }) {
+  console.log("inside store provider");
   const storeRef = useRef(null)
   if (!storeRef.current) {
     // Create the store instance the first time this renders

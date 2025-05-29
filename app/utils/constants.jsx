@@ -1,5 +1,5 @@
 
-
+console.log("inside constant")
 
 export const categories = [
   {
@@ -225,8 +225,8 @@ export const validate=(value)=>{
 
 }
 
-export  const createCart=async(productId,quantity,setLoading)=>{
-    setLoading(true);
+export  const createCart=async(productId,quantity)=>{
+
     try{
 
      const res = await fetch(BASE_URL + "/cart/addItem", {
@@ -247,8 +247,6 @@ export  const createCart=async(productId,quantity,setLoading)=>{
     catch(err){
           console.log("Error while creating or updating cart",err);
           return null;
-    }finally{
-      setLoading(false)
     }
    
    }

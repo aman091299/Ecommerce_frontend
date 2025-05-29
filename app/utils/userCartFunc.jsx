@@ -7,14 +7,11 @@ export const getALLCartItems=async (dispatch)=>{
   
     console.log("inside get all cart")
     const res=await fetch(BASE_URL+"/cart/viewAllCartItems", {credentials: 'include'});
-    console.log("res",res);
     const data=await res.json();
-    console.log("data inside getAll cart items",data)
     if(data?.data?.length===0){
        dispatch(addFullCartItems([]));
     }
     else{
-         console.log("data  inside else",data?.data)
           dispatch(addFullCartItems(data?.data));
     }
   }
@@ -35,13 +32,10 @@ try {
       credentials:'include',
     }
   )
-  console.log("res1",res)
   if(!res.ok){
    return  dispatch(addUser(null));
   }
-  console.log("res2",res)
   const data=await res.json();
-  console.log("userdata",data)
   if(data.success){
     return  dispatch(addUser(data.data));
   }
@@ -53,4 +47,27 @@ try {
  
 }
  
+}
+
+export const mergeCart=async(dispatch)=>{
+  try{
+    const res=await fetch(BASE_URL+"/cart/merge",{
+    method:"Post",
+    credentials:'include',
+    headers: {
+        "Content-Type": "application/json", // ✅ Tells server this is JSON
+      },
+      body: JSON.stringify({}), // ✅ Empty object as JSON
+  })
+   
+  const data=await res.json();
+     if(data.success){
+      return  dispatch(addFullCartItems(data?.data));
+  }
+  }
+  catch(err){
+     console.log("error merge cart data while login",err);
+  }
+  
+
 }

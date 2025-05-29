@@ -19,6 +19,7 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
+  console.log("inside layout")
   return (
     <html lang="en">
       <body
@@ -29,7 +30,7 @@ export default function RootLayout({ children }) {
         {children}
      
         <Footer/>
-           </StoreProvider>
+   </StoreProvider>
         
       </body>
       
