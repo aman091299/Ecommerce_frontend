@@ -13,6 +13,7 @@ import {
 import Loader from "@/app/components/Loader";
 
 const CollectionPage = () => {
+  console.log("inside collection")
   const [products, setProducts] = useState(null);
   const [filterCurrentIndex, setFilterCurrentIndex] = useState(-1);
   const [collectionDropdownCurrentIndex, setCollectionDropdownCurrentIndex] =

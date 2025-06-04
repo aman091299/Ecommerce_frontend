@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { createCart } from "../utils/constants";
 import SmallLoader from "./SmallLoader";
 import { setLoginPage } from "../store/loginSlice";
+import { useRouter } from "next/navigation";
 
 const CartModal = () => {
   console.log("inside cart modal")
@@ -12,6 +13,7 @@ const CartModal = () => {
   const [disableDelete,setDisableDelete]=useState(null);
     const dropDownRef = useRef(null);
   const dispatch = useDispatch();
+  const router=useRouter();
 
   const showCartModal = useSelector((store) => store.cart.isShowCartModal);
   const user=useSelector((store)=>store.user);
@@ -112,7 +114,8 @@ const CartModal = () => {
           </div>
           <div
             className={
-              "overflow-auto " + (isClient ? "max-h-[calc(100vh-5rem)]" : "")
+               (!cartItems||cartItems?.length === 0 ?"":
+              "overflow-auto ")+ (isClient ? "max-h-[calc(100vh-3rem)]" : "")
             }
           >
             {!cartItems||cartItems?.length === 0 ? (
@@ -140,14 +143,14 @@ const CartModal = () => {
             ) : (
               cartItems?.map((item) => (
                 <div className="px-4 py-6 " key={item._id}>
-                  <div className={" shadow-lg px-4 border-1 border-[#ececec] rounded opacity-10 " + (disableDelete===item._id?"opacity-25":"opacity-100")}
+                  <div className={" shadow-lg px-4 border-1 border-[#ececec] rounded  " + (disableDelete===item._id?"opacity-25":"opacity-100")}
                   disabled={disableDelete===item._id}>
                     <div className="flex justify-between mt-4">
                       <div className="text-black  font-semibold text-sm">
                         {item.name}
                       </div>
                       <div
-                        className="px-4"
+                        className="px-4 cursor-pointer"
                       onClick={()=>{
                         setDisableDelete(item._id)
                         handleCartUpdate('delete',item.itemQuantity,item.name,item.price,item._id)}}
@@ -212,16 +215,21 @@ const CartModal = () => {
               ))
             )}
             <div className="flex py-4 justify-between">
+            { !cartItems||cartItems?.length === 0  ? <div></div>:
                <div className="text-[##282c3f] mx-6 text-lg font-semibold py-2">
                Total : ₹{totalSum}.00 
             </div>
+           
+            }
             <div className="rounded py-2 text-lg font-semibold bg-orange-600 mr-4 text-white cursor-pointer">
-            {!user ?
+            {!cartItems||cartItems?.length === 0 ?<div></div>:!user ?
                <div className="px-2" onClick={()=>{dispatch(setLoginPage(true))
                                                                                                                                handleCartModal()}}>
              PROCEED TO LOGIN
             </div>
-            :<div className="flex-1 text-lg px-2 " >
+            :<div className="flex-1 text-lg px-2 " onClick={()=>{
+              dispatch(setIsShowCartModal(false));
+              router.push('/checkout/address')}}>
             PROCEED TO CHECKOUT
             </div>
             }

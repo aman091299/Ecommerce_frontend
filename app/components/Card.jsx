@@ -92,8 +92,9 @@ const Card=({image,name,description,price,_id,combo,actualPrice})=>{
 
                 </button>
               ) : (
-                <div className="flex items-center cursor-pointer gap-5 bg-orange-600 rounded px-2 py-0.5  text-white  text-2xl">
+                <div className="flex items-center  gap-5 bg-orange-600 rounded px-2 py-0.5  text-white  text-2xl">
                      <button
+                     className="cursor-pointer"
                   onClick={()=>handleCartUpdate('remove')}
                   >
                     -
@@ -102,6 +103,8 @@ const Card=({image,name,description,price,_id,combo,actualPrice})=>{
                  
                <button
                   onClick={()=>handleCartUpdate('add')}
+                className="cursor-pointer"
+
                   >
                     +
                   </button>

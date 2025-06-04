@@ -8,7 +8,7 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch,useSelector } from "react-redux";
 import { setLoginPage } from "../store/loginSlice";
 import { addUser } from "../store/userSlice";
-import { getALLCartItems, mergeCart } from "../utils/userCartFunc";
+import { mergeCart } from "../utils/userCartFunc";
 
 const LoginModal = () => {
   console.log("inside login modal")
@@ -54,7 +54,8 @@ const LoginModal = () => {
   }
   const SignUpHandler = async () => {
     setError('')
-   
+        console.log("Inside signup handler")
+
     try {
       const res = await axios.post(
         BASE_URL + "/signup",
@@ -70,8 +71,9 @@ const LoginModal = () => {
                 setFirstName(""),
                 setPassword(""),
                 setLastName(""),
-         getALLCartItems(dispatch)
+       
          dispatch(addUser(res?.data?.data));
+           await mergeCart(dispatch);
          dispatch(setLoginPage(false))
         setShowToast(true);
         //  router.push("/");

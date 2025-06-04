@@ -228,6 +228,7 @@ export const validate=(value)=>{
 export  const createCart=async(productId,quantity)=>{
 
     try{
+    console.log("inside cart create");
 
      const res = await fetch(BASE_URL + "/cart/addItem", {
       method: "POST", 
@@ -241,7 +242,7 @@ export  const createCart=async(productId,quantity)=>{
     if(!data.success){
      return null
     }
-    console.log(data);
+    console.log("inside cart create",data);
     return data.data;
     }
     catch(err){

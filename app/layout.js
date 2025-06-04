@@ -22,6 +22,9 @@ export default function RootLayout({ children }) {
   console.log("inside layout")
   return (
     <html lang="en">
+    <head>
+       <script src="https://checkout.razorpay.com/v1/checkout.js"/>
+    </head>
       <body
       >
       <StoreProvider>

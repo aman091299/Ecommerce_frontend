@@ -9,9 +9,12 @@ export const getALLCartItems=async (dispatch)=>{
     const res=await fetch(BASE_URL+"/cart/viewAllCartItems", {credentials: 'include'});
     const data=await res.json();
     if(data?.data?.length===0){
+        console.log("inside get all cart 1")
        dispatch(addFullCartItems([]));
     }
     else{
+              console.log("inside get all cart 2")
+
           dispatch(addFullCartItems(data?.data));
     }
   }
@@ -51,6 +54,7 @@ try {
 
 export const mergeCart=async(dispatch)=>{
   try{
+    console.log("inside merge")
     const res=await fetch(BASE_URL+"/cart/merge",{
     method:"Post",
     credentials:'include',
@@ -61,7 +65,9 @@ export const mergeCart=async(dispatch)=>{
   })
    
   const data=await res.json();
+  console.log("inside data",data);
      if(data.success){
+       console.log(data.data)
       return  dispatch(addFullCartItems(data?.data));
   }
   }
