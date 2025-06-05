@@ -8,11 +8,13 @@ const cartSlice=createSlice({
     },
     reducers:{
         addItemsInAddToCart:(state,action)=>{
-             console.log("inside cart slice 1",state)
-            console.log("inside cart slice 2",action.payload)
-               console.log("inside cart slice 3",state.cartItems)
+            console.log("inside cart slice action.payload",action.payload)
+            console.log("inside cart slice state.cartItems",state.cartItems)
+
           
           const index=state?.cartItems?.findIndex((item)=>(item._id === action.payload._id) );
+                    console.log("inside add to cart index",index)
+
          if(index !==-1 && action.payload.itemQuantity===0) {
         state.cartItems.splice(index,1);
 
@@ -20,6 +22,7 @@ const cartSlice=createSlice({
         else if(index !== -1){
           state.cartItems[index].itemQuantity=action.payload.itemQuantity;
         }else{
+          console.log("inside add to cart push ",action.payload)
           state.cartItems.push(action.payload);
         }        
         },
@@ -27,7 +30,7 @@ const cartSlice=createSlice({
            state.isShowCartModal=action.payload;
         },
         addFullCartItems:(state,action)=>{
-             console.log("inside add full cart",action.payload)
+             console.log("inside add full cart slice",action.payload)
              if(action.payload===null){
               return [];
              }

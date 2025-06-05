@@ -72,7 +72,7 @@ const Address = () => {
     }
 
     if (!address || address.trim().length < 10) {
-      errors.address = "At least ddress must be  10 characters";
+      errors.address = "At least address must be  10 characters";
     }
     if (!landmark || landmark.trim().length < 2) {
       errors.landmark = "At least Landmark must be 2 characters";
@@ -82,6 +82,7 @@ const Address = () => {
     }
     return errors;
   };
+
   const createAddress = async (pinCode, address, landmark, label) => {
     const validatedErrors = validateAddressInput(
       pinCode,

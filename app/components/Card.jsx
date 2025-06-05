@@ -33,7 +33,9 @@ const Card=({image,name,description,price,_id,combo,actualPrice})=>{
      setLoading(true);
     const data=await createCart(_id,newQuantity);
       setLoading(false);
+      console.log("updata cart data..............",data)
     if(data){
+      console.log("data is adding to cart slice...........",newQuantity)
         dispatch(
         addItemsInAddToCart({
           itemQuantity: newQuantity,

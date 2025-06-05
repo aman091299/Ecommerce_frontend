@@ -9,11 +9,11 @@ export const getALLCartItems=async (dispatch)=>{
     const res=await fetch(BASE_URL+"/cart/viewAllCartItems", {credentials: 'include'});
     const data=await res.json();
     if(data?.data?.length===0){
-        console.log("inside get all cart 1")
+        console.log("inside get all cart 1",data);
        dispatch(addFullCartItems([]));
     }
     else{
-              console.log("inside get all cart 2")
+              console.log("inside get all cart 2",data?.data)
 
           dispatch(addFullCartItems(data?.data));
     }

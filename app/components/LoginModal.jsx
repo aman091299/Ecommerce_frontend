@@ -82,7 +82,7 @@ const LoginModal = () => {
     } catch (error) {
     
       setError(error?.response?.data?.message);
-      console.error("Error  " + error?.message);
+      console.log("Error  " + error?.message);
     }
   };
 
@@ -124,7 +124,7 @@ const LoginModal = () => {
       }
     } catch (error) {
       setError(error?.response?.data?.message);
-       console.error("Error while login  " + error.message);
+       console.log("Error while login  " + error.message);
     }
   }
 

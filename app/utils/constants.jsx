@@ -242,7 +242,7 @@ export  const createCart=async(productId,quantity)=>{
     if(!data.success){
      return null
     }
-    console.log("inside cart create",data);
+    console.log("inside cart create,,,,,,,",data);
     return data.data;
     }
     catch(err){

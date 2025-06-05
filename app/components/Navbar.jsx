@@ -19,7 +19,7 @@ const Navbar = () => {
   console.log("inside navbar")
   const cart=useSelector(store=>store.cart.cartItems);
   const user=useSelector(store=>store.user);
-
+  console.log("carts redux......",cart);
 
   const dispatch=useDispatch();
 

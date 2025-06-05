@@ -8,7 +8,7 @@ const NewAddressInput = ({pinCode,setPinCode,address,setAddress,landmark,setLand
         <input type="number" placeholder='Pin Code*' 
         value={pinCode}
         onChange={(e)=>{setPinCode(e.target.value)}}
-        className="border-1 border-[#ebebeb] rounded w-full py-2 px-4 outline-none mb-4" />
+        className="border-1 border-[#ebebeb] rounded w-full py-2 px-4 outline-none mb-1 mt-2" />
           {addressInputError.pinCode&&
     <div className="text-red-600 ">{addressInputError.pinCode}</div>
     }
@@ -16,7 +16,7 @@ const NewAddressInput = ({pinCode,setPinCode,address,setAddress,landmark,setLand
          placeholder='Address (House, Street, Area)*' 
           value={address }
         onChange={(e)=>{setAddress (e.target.value)}}
-         className="border-1 border-[#ebebeb] rounded w-full py-2 px-4 outline-none mb-4" />
+         className="border-1 border-[#ebebeb] rounded w-full py-2 px-4 outline-none mb-1 mt-2" />
        {addressInputError.address&&
     <div className="text-red-600">{addressInputError.address}</div>
     }
@@ -24,7 +24,7 @@ const NewAddressInput = ({pinCode,setPinCode,address,setAddress,landmark,setLand
          value={landmark}
         onChange={(e)=>{setLandmark(e.target.value)}}
         placeholder='Location/Landmark' 
-        className="border-1 border-[#ebebeb] rounded w-full py-2 px-4 outline-none mb-4" />
+        className="border-1 border-[#ebebeb] rounded w-full py-2 px-4 outline-none mb-1 mt-2" />
        {addressInputError.landmark&&
     <div className="text-red-600">{addressInputError.landmark}</div>
     }
