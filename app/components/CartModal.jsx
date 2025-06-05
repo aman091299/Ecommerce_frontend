@@ -11,6 +11,8 @@ const CartModal = () => {
   const [isClient, setIsClient] = useState(false);
   const [loading,setLoading]=useState(null)
   const [disableDelete,setDisableDelete]=useState(null);
+    console.log("inside cart modal disableDelete",disableDelete)
+
     const dropDownRef = useRef(null);
   const dispatch = useDispatch();
   const router=useRouter();
@@ -143,7 +145,7 @@ const CartModal = () => {
             ) : (
               cartItems?.map((item) => (
                 <div className="px-4 py-6 " key={item._id}>
-                  <div className={" shadow-lg px-4 border-1 border-[#ececec] rounded  " + (disableDelete===item._id?"opacity-25":"opacity-100")}
+                  <div className={" shadow-lg px-4 border-1 border-[#ececec] rounded  " + (disableDelete===item._id ? " opacity-35 ":" opacity-100 ")}
                   disabled={disableDelete===item._id}>
                     <div className="flex justify-between mt-4">
                       <div className="text-black  font-semibold text-sm">
@@ -152,6 +154,7 @@ const CartModal = () => {
                       <div
                         className="px-4 cursor-pointer"
                       onClick={()=>{
+                        console.log("inside disable delete onclick......")
                         setDisableDelete(item._id)
                         handleCartUpdate('delete',item.itemQuantity,item.name,item.price,item._id)}}
 
