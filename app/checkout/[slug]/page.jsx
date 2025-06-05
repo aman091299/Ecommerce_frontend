@@ -5,17 +5,34 @@ import { useParams } from 'next/navigation'
 import Delivery from '../../components/Delivery'
 import Payment from '@/app/components/Payment'
 import { setIsShowCartModal } from '@/app/store/cartSlice'
-import {  useDispatch  } from "react-redux"
+import {  useDispatch ,useSelector } from "react-redux"
 import { useRouter } from 'next/navigation'
+import { useEffect } from 'react'
 
 const page = () => {
-     const {slug}=useParams();
-    const dispatch=useDispatch();
+  const cart=useSelector(store=>store.cart.cartItems);
+  const user=useSelector(store=>store.user);
+   const {slug}=useParams();
     const router=useRouter();
+    const dispatch=useDispatch();
+
+    useEffect(() => {
+  if (!cart || cart.length === 0 || !user) {
+    router.push("/");
+  }
+}, [cart, user]);
+
+    if (!cart || cart.length === 0 || !user) {
+  return <div className="text-center py-20 text-gray-600 flex items-center justify-center h-screen text-2xl">Your cart is empty or you're not logged in.</div>;
+}
+
+
+
 
   const handleCartModal=()=>{
      dispatch(setIsShowCartModal(true))
   }
+
 
 
   return (
