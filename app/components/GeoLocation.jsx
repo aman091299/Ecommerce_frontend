@@ -10,7 +10,7 @@ const GeoLocation = () => {
   const [locationModal, setLocationModal] = useState(false);
   const [manualLocation,setManualLocation]=useState('');
   const [suggestions,setSuggestions]=useState([]);
-  console.log("manualLocation",manualLocation);
+  console.log("inside geoLocation");
   const [error,setError]=useState('');
 
   useEffect(() => {
@@ -29,11 +29,9 @@ const GeoLocation = () => {
   
   const getCoordinatesFromAddress = async (address) => {
   try {
-    console.log("inside get cordinate addresss",address);
     const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json`);
     
     const data = await res.json();
-        console.log("inside get cordinate data",data);
 
     if (data[0]?.lat && data[0]?.lon) {
       // Use the coordinates to get the full address
@@ -42,7 +40,7 @@ const GeoLocation = () => {
       setError("Could not find location for the given address.");
     }
   } catch (err) {
-    console.error("Error fetching location from address:", err);
+    console.log("Error fetching location from address:", err);
     setError("Something went wrong. Please try again.");
   }
 };
@@ -55,10 +53,9 @@ const fetchSuggestions = async (query) => {
       `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&addressdetails=1&limit=5`
     );
     const data = await res.json();
-    console.log("data........",data)
     setSuggestions(data);
   } catch (err) {
-    console.error("Error fetching suggestions", err);
+    console.log("Error fetching suggestions", err);
   }
 };
   //getting use current location
@@ -66,14 +63,12 @@ const fetchSuggestions = async (query) => {
     try {
       console.log("inside detect my locations")
       if (!navigator.geolocation) {
-        console.error("Geolocation is not supported by browser");
-           console.log("inside detect my locations1")
+        console.log("Geolocation is not supported by browser");
         return;
       }
 
       navigator.geolocation.getCurrentPosition(
         (pos) => {
-             console.log("inside detect my locations2",pos)
         const { longitude, latitude } = pos.coords;
         reverseGeocode(latitude, longitude);
       } ,(err) => {
@@ -100,8 +95,6 @@ const fetchSuggestions = async (query) => {
 
   const reverseGeocode = async (lat, lng) => {
     try {
-                 console.log("ireverseGeocode lat lng",lat,lng)
-
       const res = await fetch(
         BASE_URL + "/user/reverseGeocode?lat=" + lat + "&lng=" + lng,
         {
@@ -109,7 +102,6 @@ const fetchSuggestions = async (query) => {
         }
       );
       const data = await res.json();
-      console.log("data........",data)
 
       const address = data.data.address;
       setUserAddress(address);
@@ -118,8 +110,8 @@ const fetchSuggestions = async (query) => {
       setError('')
     } catch (err) {
       
-                       console.log("ireverseGeocode",err)
-      console.error("Errorin getting user location : ", err);
+      console.log("ireverseGeocode",err)
+      // console.error("Errorin getting user location : ", err);
       setIsTextDetect(false);
     }
   };

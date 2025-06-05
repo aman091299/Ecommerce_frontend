@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Loader from './Loader';
 
 const Payment = () => {
+  console.log("inside payment");
     const [type,setType]=useState('pay-online');
     const [loading,setLoading]=useState(true);
     const router=useRouter();
@@ -59,7 +60,7 @@ const Payment = () => {
             console.log("data....",data.data,"amount,,,,,,,",amount)
             var options = {
                 "key": data?.key, // Enter the Key ID generated from the Dashboard
-                "amount":amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+                "amount":amount*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                 "currency": currency,
                 "name": "Cambay Tiger Corp",
                 "description": "Test Transaction",

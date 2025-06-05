@@ -134,12 +134,14 @@ const ProductCard = ({
               ) : (
                 <div className="flex items-center gap-5 bg-orange-600 rounded px-2 py-0.5  text-white  text-2xl cursor-pointer">
                      <button
+                     className="cursor-pointer"
                   onClick={()=>handleCartUpdate('remove')}
                   >
                     -
                   </button>
                   <div>{loading?<SmallLoader/>:quantityInCart}</div>
                <button
+                   className="cursor-pointer"
                   onClick={()=>handleCartUpdate('add')}
                   >
                     +

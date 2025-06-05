@@ -145,12 +145,14 @@ const ProductPageContainer = ({
               ) : (
                 <div className="flex gap-5 bg-orange-600 rounded px-4 text-white py-1 text-2xl cursor-pointer">
                                     <button
+                                    className="cursor-pointer"
                     onClick={() =>handleCartUpdate("remove")}
                   >
                     -
                   </button>
                   <div>  {loading?<SmallLoader/>:quantityInCart}</div>
                   <button
+                  className="cursor-pointer"
                     onClick={() => handleCartUpdate("add")}
                   >
                     +

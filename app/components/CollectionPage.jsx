@@ -156,7 +156,7 @@ const CollectionPage = () => {
       const products = await axios.get(fullUrl);
       setProducts(products.data.products);
     } catch (error) {
-      console.error("Error in getting products" + error);
+      console.log("Error in getting products" + error);
     }
     return;
   };

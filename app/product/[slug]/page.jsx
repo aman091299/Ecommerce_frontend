@@ -6,7 +6,7 @@ import { BASE_URL } from '@/app/utils/constants';
 import Loader from '@/app/components/Loader';
 
   const productData=async(slug)=>{
-    console.log("slug",slug)
+
       try {
          const res=await fetch(BASE_URL+"/product/view/"+slug);
     

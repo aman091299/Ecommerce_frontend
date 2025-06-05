@@ -9,6 +9,8 @@ import Loader from "./Loader";
 import {useRouter} from 'next/navigation'
 
 const Address = () => {
+  
+   console.log("inside address");
   const [loading, setLoading] = useState(true);
   const [selectedLabel, setSelectedLabel] = useState("Home");
   const [pinCode, setPinCode] = useState("");
@@ -22,8 +24,6 @@ const Address = () => {
   const [addressInputError, setAddressInputError] = useState("");
   const [isIntaillyAddressAvailable,setIsIntaillyAddressAvailable]=useState(true);
   const router=useRouter();
-  console.log("newAddress",newAddress);
-
   useEffect(() => {
     getAddress();
   }, [newAddress]);
@@ -41,7 +41,6 @@ const Address = () => {
         setAddressData(data?.data);
         return;
       }
-      console.log("inside this 2")
       if(isIntaillyAddressAvailable){
         setNewAddress(false);
         setIsIntaillyAddressAvailable(false);
