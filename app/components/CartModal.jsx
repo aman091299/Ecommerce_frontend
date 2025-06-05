@@ -37,7 +37,9 @@ const CartModal = () => {
     };
   }, [showCartModal]);
 
-
+useEffect(()=>{
+setDisableDelete(null);
+},[cartItems])
 
    const handleCartUpdate =async (type,quantityInCart,name,price,_id) => {
     let newQuantity=quantityInCart;
@@ -154,7 +156,6 @@ const CartModal = () => {
                       <div
                         className="px-4 cursor-pointer"
                       onClick={()=>{
-                        console.log("inside disable delete onclick......")
                         setDisableDelete(item._id)
                         handleCartUpdate('delete',item.itemQuantity,item.name,item.price,item._id)}}
 
