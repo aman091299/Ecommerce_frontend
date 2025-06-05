@@ -29,9 +29,11 @@ const GeoLocation = () => {
   
   const getCoordinatesFromAddress = async (address) => {
   try {
+    console.log("inside get cordinate addresss",address);
     const res = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(address)}&format=json`);
     
     const data = await res.json();
+        console.log("inside get cordinate data",data);
 
     if (data[0]?.lat && data[0]?.lon) {
       // Use the coordinates to get the full address
@@ -62,17 +64,21 @@ const fetchSuggestions = async (query) => {
   //getting use current location
   const detectMyLocation = () => {
     try {
+      console.log("inside detect my locations")
       if (!navigator.geolocation) {
         console.error("Geolocation is not supported by browser");
+           console.log("inside detect my locations1")
         return;
       }
 
       navigator.geolocation.getCurrentPosition(
         (pos) => {
+             console.log("inside detect my locations2",pos)
         const { longitude, latitude } = pos.coords;
         reverseGeocode(latitude, longitude);
       } ,(err) => {
         // console.error("Geolocation error:", err);
+           console.log("inside detect my locations3",err)
         if (err.code === 1) {
           setError("Unable to retrieve your location.");
         } else if (err.code === 2) {
@@ -84,6 +90,8 @@ const fetchSuggestions = async (query) => {
         }
      } );
     } catch (err) {
+                 console.log("inside detect my locations4",err)
+
       console.error("Errorin getting user location : ", err);
     }
   };
@@ -92,6 +100,8 @@ const fetchSuggestions = async (query) => {
 
   const reverseGeocode = async (lat, lng) => {
     try {
+                 console.log("ireverseGeocode lat lng",lat,lng)
+
       const res = await fetch(
         BASE_URL + "/user/reverseGeocode?lat=" + lat + "&lng=" + lng,
         {
@@ -107,6 +117,8 @@ const fetchSuggestions = async (query) => {
       setIsTextDetect(false);
       setError('')
     } catch (err) {
+      
+                       console.log("ireverseGeocode",err)
       console.error("Errorin getting user location : ", err);
       setIsTextDetect(false);
     }
