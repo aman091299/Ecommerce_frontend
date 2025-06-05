@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 import Loader from './Loader';
 
 const Payment = () => {
-    const [type,setType]=useState('');
+    const [type,setType]=useState('pay-online');
     const [loading,setLoading]=useState(true);
     const router=useRouter();
 
@@ -43,6 +43,7 @@ const Payment = () => {
 
     const placeOrderhandler=async(type)=>{
       try{   
+        console.log("placing order .....",type)
             if(type==='pay-online'){
                const res= await fetch(BASE_URL + '/payment/create/order',{
                 method:'Post',
