@@ -66,7 +66,7 @@ const Payment = () => {
                 "description": "Test Transaction",
                 "image": "https://cdn.razorpay.com/logos/FKjVLQVqlhHPF2_medium.jpg",
                 "order_id": orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                "callback_url": "https://eneqd3r9zrjok.x.pipedream.net/",
+                 handler:verifyPayment, 
                 "prefill": {
                     "name": notes.firstName +" "+ notes.lastName,
                     "email": notes.emailId,
@@ -95,6 +95,20 @@ const Payment = () => {
         // e.preventDefault();
 
     }
+
+       
+  const verifyPayment=async()=>{
+   try {
+    setLoading(true);
+    const res=await fetch(BASE_URL+'/payment/verify',{credentials:'include'});
+    const data=await res.json();
+    console.log("verifyPayment.............",data)
+   } catch (error) {
+    console.log('Error',error);
+   }finally{
+    setLoading(false);
+   }
+  }
 
   return (
     <div>
