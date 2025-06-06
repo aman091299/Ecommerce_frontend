@@ -125,6 +125,7 @@ const ProductPageContainer = ({
               </div>
               {quantityInCart === 0 ? (
                 <button
+                disabled={loading}
                   className="btn btn-neutral cursor-pointer hover:bg-orange-600 hover:border-orange-600"
                   onClick={()=>handleCartUpdate('add')}
                 >
@@ -146,6 +147,7 @@ const ProductPageContainer = ({
                 <div className="flex gap-5 bg-orange-600 rounded px-4 text-white py-1 text-2xl cursor-pointer">
                                     <button
                                     className="cursor-pointer"
+                                    disabled={loading}
                     onClick={() =>handleCartUpdate("remove")}
                   >
                     -
@@ -154,6 +156,7 @@ const ProductPageContainer = ({
                   <button
                   className="cursor-pointer"
                     onClick={() => handleCartUpdate("add")}
+                    disabled={loading}
                   >
                     +
                   </button>

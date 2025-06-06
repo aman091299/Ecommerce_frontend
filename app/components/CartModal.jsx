@@ -1,17 +1,14 @@
 import { useSelector, useDispatch } from "react-redux";
 import { setIsShowCartModal, addItemsInAddToCart } from "../store/cartSlice";
 import { useEffect, useRef, useState } from "react";
-import { createCart } from "../utils/constants";
-import SmallLoader from "./SmallLoader";
+
 import { setLoginPage } from "../store/loginSlice";
 import { useRouter } from "next/navigation";
+import CartCard from "./CartCard";
 
 const CartModal = () => {
   console.log("inside cart modal")
   const [isClient, setIsClient] = useState(false);
-  const [loading,setLoading]=useState(null)
-  const [disableDelete,setDisableDelete]=useState(null);
-    console.log("inside cart modal disableDelete",disableDelete)
 
     const dropDownRef = useRef(null);
   const dispatch = useDispatch();
@@ -36,45 +33,6 @@ const CartModal = () => {
       document.body.style.overflow = "auto";
     };
   }, [showCartModal]);
-
-useEffect(()=>{
-setDisableDelete(null);
-},[cartItems])
-
-   const handleCartUpdate =async (type,quantityInCart,name,price,_id) => {
-    let newQuantity=quantityInCart;
-          
-       if (type === "add") {
-      newQuantity +=1;
-    }
-    if (type === 'remove' && quantityInCart <= 0) return;
-    if (quantityInCart > 1 &&  type === "remove") {
-                 newQuantity -=1;
-    }
-     if (newQuantity < 0) newQuantity = 0
-     if(type==='delete'){
-      newQuantity=0;
-     }
-     if(type !== 'delete'){
-     setLoading(_id);
-     }
-
-    const data=await createCart(_id,newQuantity);
-
-    setLoading(null);
-    
-    if(data){
-        dispatch(
-        addItemsInAddToCart({
-          itemQuantity: newQuantity,
-          name: name,
-          price: price,
-          _id: _id,
-        })
-      );
-         }
-    }
-   
 
 
 
@@ -146,76 +104,7 @@ setDisableDelete(null);
               </div>
             ) : (
               cartItems?.map((item) => (
-                <div className="px-4 py-6 " key={item._id}>
-                  <div className={" shadow-lg px-4 border-1 border-[#ececec] rounded  " + (disableDelete===item._id ? " opacity-35 ":" opacity-100 ")}
-                  disabled={disableDelete===item._id}>
-                    <div className="flex justify-between mt-4">
-                      <div className="text-black  font-semibold text-sm">
-                        {item.name}
-                      </div>
-                      <div
-                        className="px-4 cursor-pointer"
-                      onClick={()=>{
-                        setDisableDelete(item._id)
-                        handleCartUpdate('delete',item.itemQuantity,item.name,item.price,item._id)}}
-
-                      >
-                        <svg
-                          width="14"
-                          height="17"
-                          viewBox="0 0 14 17"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            d="M13.5 2.93423H10.9062L9.84375 1.19165C9.59375 0.787118 9.03125 0.444824 8.5625 0.444824H5.40625C4.9375 0.444824 4.375 0.787118 4.125 1.19165L3.0625 2.93423H0.5C0.21875 2.93423 0 3.18317 0 3.43211V3.92999C0 4.21005 0.21875 4.42788 0.5 4.42788H1L1.65625 14.9767C1.6875 15.7547 2.375 16.377 3.15625 16.377H10.8125C11.5938 16.377 12.2812 15.7547 12.3125 14.9767L13 4.42788H13.5C13.75 4.42788 14 4.21005 14 3.92999V3.43211C14 3.18317 13.75 2.93423 13.5 2.93423ZM5.40625 1.93847H8.5625L9.15625 2.93423H4.8125L5.40625 1.93847ZM10.8125 14.8834H3.15625L2.5 4.42788H11.4688L10.8125 14.8834Z"
-                            fill="#BEBEBE"
-                          ></path>
-                        </svg>
-                      </div>
-                    </div>
-
-                    <div className="flex mt-4  justify-between items-center py-4">
-                      <div className="bg-blue-100 text-blue-400 text-sm px-1 flex items-center">
-                        Combo of {item?.combo ? item?.combo : "3"}
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <span
-                          className="ml-2  text-[12px] text-[#a9a9a9] line-through"
-                          style={{ textDecorationThickness: "1px" }}
-                        >
-                          ₹{item.actualPrice}.00
-                        </span>
-                        <span className="font-bold text-[14px]">
-                          ₹{item.price}.00
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-4 rounded border-1 border-[#e7e7e7] px-1  ">
-                        <button
-                          className={
-                            "text-2xl " +
-                            (item.itemQuantity == "1"
-                              ? "text-[#dedede]"
-                              : "text-orange-600 cursor-pointer")
-                          }
-                          disabled={item.itemQuantity=='1'}
-                      onClick={()=>handleCartUpdate('remove',item.itemQuantity,item.name,item.price,item._id)}
-                        >
-                          -
-                        </button>
-                        <div>{loading===item._id?<SmallLoader/>:item.itemQuantity}</div>
-                        <button
-                          className=" text-orange-600 text-xl cursor-pointer"
-                        onClick={()=>handleCartUpdate('add',item.itemQuantity,item.name,item.price,item._id)}
-
-                        >
-                          +
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+             <CartCard {...item} key={item._id}/>
               ))
             )}
             <div className="flex py-4 justify-between">

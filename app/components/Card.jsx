@@ -23,19 +23,19 @@ const Card=({image,name,description,price,_id,combo,actualPrice})=>{
           let newQuantity=quantityInCart;
           
        if (type === "add") {
+        console.log("inside add quantity befor adding 1",newQuantity)
       newQuantity +=1;
     }
      
     if (quantityInCart > 0 &&  type === "remove") {
+  console.log("inside remov quantity before remove 1",newQuantity)
                  newQuantity -=1;
     }
      if (newQuantity < 0) newQuantity = 0
      setLoading(true);
     const data=await createCart(_id,newQuantity);
       setLoading(false);
-      console.log("updata cart data..............",data)
     if(data){
-      console.log("data is adding to cart slice...........",newQuantity)
         dispatch(
         addItemsInAddToCart({
           itemQuantity: newQuantity,
@@ -74,6 +74,7 @@ const Card=({image,name,description,price,_id,combo,actualPrice})=>{
         
               {quantityInCart === 0 ? (
                 <button
+                 disabled={loading}
                   className="btn btn-neutral text-[12px] flex items-center hover:bg-orange-600 hover:border-orange-600 cursor-pointer"
                   onClick={()=>handleCartUpdate('add')}
                 >
@@ -96,6 +97,7 @@ const Card=({image,name,description,price,_id,combo,actualPrice})=>{
               ) : (
                 <div className="flex items-center  gap-5 bg-orange-600 rounded px-2 py-0.5  text-white  text-2xl">
                      <button
+                     disabled={loading}
                      className="cursor-pointer"
                   onClick={()=>handleCartUpdate('remove')}
                   >
@@ -106,7 +108,7 @@ const Card=({image,name,description,price,_id,combo,actualPrice})=>{
                <button
                   onClick={()=>handleCartUpdate('add')}
                 className="cursor-pointer"
-
+                disabled={loading}
                   >
                     +
                   </button>

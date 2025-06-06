@@ -13,7 +13,7 @@ const Payment = () => {
     getAddress();
     }, []);
 
-    const getAddress = async () => {
+     const getAddress = async () => {
      setLoading(true);
     try {
         const res = await fetch(BASE_URL + "/address/default", {
@@ -34,7 +34,7 @@ const Payment = () => {
          setLoading(false);
     } 
     };
-    if (loading) {
+      if (loading) {
         return (
           <div className="py-40 relative">
             <Loader />
@@ -42,10 +42,12 @@ const Payment = () => {
         );
       }
 
+
     const placeOrderhandler=async(type)=>{
       try{   
         console.log("placing order .....",type)
             if(type==='Online'){
+                 setLoading(true);
                const res= await fetch(BASE_URL + '/payment/create/order',{
                 method:'Post',
                 headers:{
@@ -57,7 +59,6 @@ const Payment = () => {
             });
             const data=await res.json();
             const {amount,currency,orderId,notes,address}=data?.data;
-            console.log("data....",data.data,"amount,,,,,,,",amount)
             var options = {
                 "key": data?.key, // Enter the Key ID generated from the Dashboard
                 "amount":amount*100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -66,7 +67,7 @@ const Payment = () => {
                 "description": "Test Transaction",
                 "image": "https://cdn.razorpay.com/logos/FKjVLQVqlhHPF2_medium.jpg",
                 "order_id": orderId, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                 handler:verifyPayment, 
+                
                 "prefill": {
                     "name": notes.firstName +" "+ notes.lastName,
                     "email": notes.emailId,
@@ -77,23 +78,41 @@ const Payment = () => {
                 },
                 "theme": {
                     "color": "#3399cc"
-                }
+                },
+                 handler:verifyPayment, 
             };
             var rzp1 = new Razorpay(options);
                 rzp1.open();
             }
             else {
-            console.log('Place order with', type); // COD or wallet
+            console.log('Place order with', type); 
+            // COD or wallet
             // You can call another API for COD or wallet payment
+            if(type==='COD'){
+                 setLoading(true);
+              const res=await fetch(BASE_URL +"/payment/cod",{
+                method:'Post',
+                credentials:'include',
+                headers:{
+                  'Content-Type':'application/json',
+                },
+                body:JSON.stringify({type})
+              })
+            const data=await res.json();
+            
+            console.log("cod data......",data);
+            if(data.success){
+             router.push('/order-placed');
+            }
+            }
+         
           }
-
-        }
+  }
         catch(error){
             console.log("Error while payment ",error);
+        }finally{
+          setLoading(false);
         }
-      
-        // e.preventDefault();
-
     }
 
        
@@ -102,7 +121,10 @@ const Payment = () => {
     setLoading(true);
     const res=await fetch(BASE_URL+'/payment/verify',{credentials:'include'});
     const data=await res.json();
-    console.log("verifyPayment.............",data)
+      console.log("verifyPayment.............",data)
+    if(data?.data?.paymentStatus==='Paid'){
+      router.push("/order-placed")
+    }
    } catch (error) {
     console.log('Error',error);
    }finally{
