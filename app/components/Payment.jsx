@@ -5,7 +5,7 @@ import Loader from './Loader';
 
 const Payment = () => {
   console.log("inside payment");
-    const [type,setType]=useState('pay-online');
+    const [type,setType]=useState('Online');
     const [loading,setLoading]=useState(true);
     const router=useRouter();
 
@@ -45,7 +45,7 @@ const Payment = () => {
     const placeOrderhandler=async(type)=>{
       try{   
         console.log("placing order .....",type)
-            if(type==='pay-online'){
+            if(type==='Online'){
                const res= await fetch(BASE_URL + '/payment/create/order',{
                 method:'Post',
                 headers:{
@@ -118,7 +118,7 @@ const Payment = () => {
                  className= "bg-base-100 py-4 pl-4 rounded-lg  text-sm my-4 border-1 border-[#d5cbcb]"
                   >
                   <label className="flex gap-4 items-start cursor-pointer ">
-                    <input type="radio" className="w-3 h-3 mt-2" name="payment-method" value="pay-online" defaultChecked onChange={()=>setType("pay-online")} />
+                    <input type="radio" className="w-3 h-3 mt-2" name="payment-method" value="Online" defaultChecked onChange={()=>setType("Online")} />
                     <div className="flex flex-col">
                       <span className="font-semibold text-neutral text-lg">Pay Online</span>
                          <span className="text-[#616161] text-sm font-medium">Pay via UPI, Debit Card, Credit Card, Net Banking, etc.</span>
@@ -130,7 +130,7 @@ const Payment = () => {
                  className= "bg-base-100 py-4 pl-4 rounded-lg  text-sm my-4 border-1 border-[#d5cbcb]"
                   >
                   <label className="flex gap-4 items-start cursor-pointer ">
-                    <input type="radio" className="w-3 h-3 mt-2" name="payment-method" value="pay-cod" onChange={()=>setType("pay-cod")}  />
+                    <input type="radio" className="w-3 h-3 mt-2" name="payment-method" value="COD" onChange={()=>setType("COD")}  />
       
                       <span className="font-semibold text-neutral text-lg">COD</span>
                       
