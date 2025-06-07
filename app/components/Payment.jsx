@@ -175,11 +175,13 @@ const Payment = () => {
 
                 
               </div>
-                <div className=" bg-neutral text-base-100 text-center font-bold rounded mt-4   w-full ">
+                <button 
+                className=" bg-neutral text-base-100 text-center font-bold rounded mt-4 w-full disabled:cursor-not-allowed disabled:opacity-50 "
+                disabled={loading}>
        
-          <div className="mx-auto w-full  py-4 cursor-pointer" onClick={()=>placeOrderhandler(type)}>PLACE ORDER</div>
+          <div className="mx-auto w-full  py-4 cursor-pointer" onClick={()=>placeOrderhandler(type)}>{loading?"Processing...":"PLACE ORDER"}</div>
           
-          </div>
+          </button>
             
           </div>
     

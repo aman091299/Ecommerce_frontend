@@ -50,8 +50,7 @@ export default function DeliverySlotPicker() {
 
   const [selectedDate, setSelectedDate] = useState(availableDates[0].format('DD-MM-YYYY'));
   const [selectedTime, setSelectedTime] = useState(timeSlots[0].slotValue);
-
-        console.log("deliveryDate and slot11.....",selectedDate,selectedTime)
+  const [loading,setLoading]=useState(false);
 
 const currentHour = dayjs().hour();
 const router=useRouter();
@@ -62,6 +61,7 @@ const router=useRouter();
   
    const createDeliverySlot=async(selectedDate,selectedTime)=>{
     try {
+      setLoading(true);
       console.log("deliveryDate and slot",selectedDate,selectedTime)
           const res=await fetch(BASE_URL+"/cart/deliverySlot",{
             method:'Post',
@@ -74,10 +74,12 @@ const router=useRouter();
           const data=await res.json();
           console.log("data in delivery slot...",data);
           if(data.success){
-              // router.push("/checkout/payment");
+              router.push("/checkout/payment");
           }
     } catch (error) {
       console.log("Error in creating delivery Slot",error)
+    }finally{
+      setLoading(false);
     }
    }
 
@@ -114,12 +116,15 @@ const router=useRouter();
        
        
        </div>
-           <div className=" bg-neutral text-base-100 text-center font-bold rounded mt-4   w-full ">
+           <button className=" bg-neutral text-base-100 text-center font-bold rounded mt-4   w-full  disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={loading} >
        
-          <div className="mx-auto w-full  py-4 cursor-pointer" onClick={()=>{
-           createDeliverySlot(selectedDate,selectedTime)}}>PAY ₹ {totalSum}.00</div>
+          <div className="mx-auto w-full  py-4 cursor-pointer " 
+   
+          onClick={()=>{
+           createDeliverySlot(selectedDate,selectedTime)}}>{loading?"Processing...":"PAY ₹ "+totalSum+".00"}</div>
           
-          </div>
+          </button>
      
 
        </div>

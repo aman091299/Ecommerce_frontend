@@ -4,7 +4,7 @@ const orderPlace = () => {
 
     
   return (
-    <div className="py-40">
+    <div className="py-26">
     <CartUpdate/>
     </div>
   )
