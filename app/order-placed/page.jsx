@@ -6,8 +6,7 @@ const orderPlace = () => {
   return (
     <div className="py-40">
     <CartUpdate/>
-    order placed.....................
-    jgj</div>
+    </div>
   )
 }
 

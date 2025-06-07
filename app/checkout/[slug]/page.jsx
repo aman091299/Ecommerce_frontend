@@ -7,7 +7,8 @@ import Payment from '@/app/components/Payment'
 import { setIsShowCartModal } from '@/app/store/cartSlice'
 import {  useDispatch ,useSelector } from "react-redux"
 import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { useEffect } from 'react';
+import Image from 'next/image';
 
 const page = () => {
   const cart=useSelector(store=>store.cart.cartItems);
@@ -16,15 +17,15 @@ const page = () => {
     const router=useRouter();
     const dispatch=useDispatch();
 
-    useEffect(() => {
-  if (!cart || cart.length === 0 || !user) {
-    router.push("/");
-  }
-}, [cart, user]);
+//     useEffect(() => {
+//   if (!cart || cart.length === 0 || !user) {
+//     router.push("/");
+//   }
+// }, [cart, user]);
 
-    if (!cart || cart.length === 0 || !user) {
-  return <div className="text-center py-20 text-gray-600 flex items-center justify-center h-screen text-2xl">Your cart is empty or you're not logged in.</div>;
-}
+//     if (!cart || cart.length === 0 || !user) {
+//   return <div className="text-center py-20 text-gray-600 flex items-center justify-center h-screen text-2xl">Your cart is empty or you're not logged in.</div>;
+// }
 
 
 
@@ -76,23 +77,43 @@ const page = () => {
     </div>
         <div className="flex justify-center items-center ">
            
-            <div className="flex flex-col mr-10">
+            <div className="flex flex-col mr-10 gap-4">
+
+            {/* <div className="border-[1.4px] border-orange-600 rounded-full w-12 h-12 flex items-center justify-center text-2xl ">
+            1
+            </div> */}
+           {slug==='delivery' || slug ==='payment' ?
+            <div className="bg-orange-600  rounded-full w-12 h-12 flex items-center justify-center">
+            <Image src="https://cambaytiger.com/plixlifefc/assets/Tick.svg"
+              height={22} width={22} 
+              alt="track delivery image"
+              />
+            </div>:
             <div className="border-[1.4px] border-orange-600 rounded-full w-12 h-12 flex items-center justify-center text-2xl ">
             1
             </div>
-               <div>
+            }
+               <div >
                  Address
             </div>
           </div>
           <div className="border-dashed border-[#d9d9d9] border-1 w-1/8 mb-3"></div>
-             <div className="flex flex-col ml-10">
+             <div className="flex flex-col ml-10 gap-4">
+               { slug ==='payment' ?
+            <div className="bg-orange-600  rounded-full w-12 h-12 flex items-center justify-center">
+            <Image src="https://cambaytiger.com/plixlifefc/assets/Tick.svg"
+              height={22} width={22} 
+              alt="track delivery image"
+              />
+            </div>:
             <div className="bg-[#d9d9d9] rounded-full w-12 h-12 flex items-center justify-center text-2xl ">2</div>
+               }
               <div>
                 Delivery Slot
             </div>
            </div>
           <div className="border-dashed border-[#d9d9d9] border-1 w-1/8 mb-3 mr-10"></div>
-            <div  className="flex flex-col">
+            <div  className="flex flex-col gap-4">
                         <div className=" bg-[#d9d9d9] rounded-full w-12 h-12 flex items-center justify-center text-2xl ">3</div>
                    <div> Payment</div>
           </div>

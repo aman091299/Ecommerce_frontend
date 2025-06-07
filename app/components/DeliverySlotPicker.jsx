@@ -4,6 +4,7 @@ import { useState } from 'react';
 import dayjs from 'dayjs';
 import { useSelector } from 'react-redux';
 import {useRouter} from 'next/navigation';
+import { BASE_URL } from '../utils/constants';
 
 const availableDates = [
   dayjs().add(0,'day'), // Today
@@ -49,6 +50,9 @@ export default function DeliverySlotPicker() {
 
   const [selectedDate, setSelectedDate] = useState(availableDates[0].format('DD-MM-YYYY'));
   const [selectedTime, setSelectedTime] = useState(timeSlots[0].slotValue);
+
+        console.log("deliveryDate and slot11.....",selectedDate,selectedTime)
+
 const currentHour = dayjs().hour();
 const router=useRouter();
   const cartItems=useSelector(store=>store.cart.cartItems);
@@ -56,7 +60,26 @@ const router=useRouter();
   
   const availableSlots=timeSlots.filter(slot=> currentHour <slot.startHour)
   
-
+   const createDeliverySlot=async(selectedDate,selectedTime)=>{
+    try {
+      console.log("deliveryDate and slot",selectedDate,selectedTime)
+          const res=await fetch(BASE_URL+"/cart/deliverySlot",{
+            method:'Post',
+            credentials:'include',
+            headers:{
+              'Content-Type':'application/json'
+            },
+            body:JSON.stringify({deliveryDate:selectedDate,deliverySlot:selectedTime})
+          })
+          const data=await res.json();
+          console.log("data in delivery slot...",data);
+          if(data.success){
+              // router.push("/checkout/payment");
+          }
+    } catch (error) {
+      console.log("Error in creating delivery Slot",error)
+    }
+   }
 
   return (
 
@@ -94,7 +117,7 @@ const router=useRouter();
            <div className=" bg-neutral text-base-100 text-center font-bold rounded mt-4   w-full ">
        
           <div className="mx-auto w-full  py-4 cursor-pointer" onClick={()=>{
-            router.push("/checkout/payment")}}>PAY ₹ {totalSum}.00</div>
+           createDeliverySlot(selectedDate,selectedTime)}}>PAY ₹ {totalSum}.00</div>
           
           </div>
      
