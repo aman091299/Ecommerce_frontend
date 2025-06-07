@@ -1,20 +1,17 @@
 'use client'
-import {useState} from 'react'
-import { useSelector } from 'react-redux';
+import {useEffect, useState} from 'react'
 
-const OrderSummary = () => {
-
-  const [isShowFullText,setIsShowFullText]=useState(false);
-   const cartItems=useSelector(store=>store.cart.cartItems);
- const totalSum= cartItems?.reduce((acc,item)=>(  acc +item.itemQuantity*item.price),0) || 0;
+const PaymentOrderSummary = ({cartItems,totalSum}) => {
+    const   [isShowFullText,setIsShowFullText]=useState(false);
+   
   return (
     <div className="text-black   min-w-full  py-2 border-1 border-[#ececec] rounded ">
          <div className="px-4 font-semibold">
-             <div className="border-b-1 py-2">Order Summary({cartItems.length} items)</div>
+             <div className="border-b-1 py-2">Order Summary({cartItems?.length} items)</div>
              
         </div>
         <div>
-        {cartItems.map(item=>(
+        {cartItems?.map(item=>(
                 <div className="w-full px-4 py-3" key={item._id}>
            <div className="bg-[#f9f9f9] py-4 pl-4 rounded-lg text-[#616161] text-sm">
             <div className="font-semibold text-neutral mb-1">{item.name}</div>
@@ -63,4 +60,4 @@ const OrderSummary = () => {
   )
 }
 
-export default OrderSummary
+export default PaymentOrderSummary

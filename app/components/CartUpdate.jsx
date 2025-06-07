@@ -3,11 +3,14 @@ import { useEffect } from "react";
 import { useSelector, useDispatch  } from "react-redux";
 import { getALLCartItems } from "../utils/userCartFunc";
 import Image from 'next/image';
+import { useRouter } from 'next/navigation'
 
-const CartUpdate = () => {
-  console.log("inside order placed")
+
+ const CartUpdate = () => {
+   console.log("inside order placed")
     const cart=useSelector(store=>store.cart.cartItems);
     const dispatch=useDispatch();
+    const router=useRouter();
 
 useEffect(()=>{
     console.log("inside cart update get all cart itemsuseffect");
@@ -15,6 +18,7 @@ useEffect(()=>{
  },[cart?.length])
 
   return (
+    <div>
     <div className="flex items-center flex-col gap-6">
       <Image src="https://cambaytigerstage-media.farziengineer.co/hosted/Thank_You_page_GIF-f67bbb97a2b3.gif"
      height={180} width={180} 
@@ -32,10 +36,19 @@ useEffect(()=>{
       <div className="font-semibold">Order Number 44965</div>
     </div>
     <div className="flex gap-4">
-      <div className="border-1 border-orange-600 text-orange-600 font-bold px-4 py-2 rounded-lg text-lg cursor-pointer">Past orders</div>
-      <div className="border-1 border-orange-600 text-orange-600 font-bold px-4 py-2 rounded-lg text-lg cursor-pointer">Track my orders</div>
+      <button 
+      onClick={()=> router.push("/order-history")}
+      className="border-1 border-orange-600 text-orange-600 font-bold px-4 py-2 rounded-lg text-lg cursor-pointer">
+      Past orders
+      </button>
+      <button 
+      className="border-1 border-orange-600 text-orange-600 font-bold px-4 py-2 rounded-lg text-lg cursor-pointer">
+      Track my orders
+      </button>
 
     </div>
+    </div>
+    
     </div>
   )
 }

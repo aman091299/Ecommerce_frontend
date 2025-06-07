@@ -24,6 +24,7 @@ const Address = () => {
   const [addressInputError, setAddressInputError] = useState("");
   const [isIntaillyAddressAvailable,setIsIntaillyAddressAvailable]=useState(true);
   const router=useRouter();
+  
   useEffect(() => {
     getAddress();
   }, [newAddress]);
