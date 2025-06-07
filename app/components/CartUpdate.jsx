@@ -42,6 +42,7 @@ useEffect(()=>{
       Past orders
       </button>
       <button 
+          onClick={()=> router.push("/order-history")}
       className="border-1 border-orange-600 text-orange-600 font-bold px-4 py-2 rounded-lg text-lg cursor-pointer">
       Track my orders
       </button>
