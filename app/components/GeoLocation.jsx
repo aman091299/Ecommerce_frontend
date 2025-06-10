@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { BASE_URL } from "../utils/constants";
-import { stringifyCookie } from "next/dist/compiled/@edge-runtime/cookies";
 
 const GeoLocation = () => {
   const [userAddress, setUserAddress] = useState(null);
@@ -18,12 +17,17 @@ const GeoLocation = () => {
   }, []);
 
   useEffect(()=>{
+     if(manualLocation !==''){
     const timer=setTimeout(()=>{
-   fetchSuggestions(manualLocation);
+     
+       fetchSuggestions(manualLocation);
+
+    
     },200)
+    
     return ()=>{
       clearTimeout(timer);
-    }
+    }  }
   },[manualLocation])
 
   

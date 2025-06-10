@@ -19,6 +19,7 @@ const Navbar = () => {
   console.log("inside navbar")
   const cart=useSelector(store=>store.cart.cartItems);
   const user=useSelector(store=>store.user);
+ const itemQuantity= cart?.reduce((acc,item)=>( acc +item.itemQuantity),0) || 0;
 
   const dispatch=useDispatch();
 
@@ -26,7 +27,7 @@ const Navbar = () => {
   useEffect(()=>{
     console.log("inside nav bar useffect")
   getALLCartItems(dispatch);
- },[cart?.length])
+ },[itemQuantity])
 
   useEffect(()=>{
    getUserData(dispatch);
@@ -159,6 +160,17 @@ const Navbar = () => {
           </a>
         </li>
         }
+        <Link href={"/order-history"}>
+              {user&&
+        <li className="border-b-1 border-[#ebebeb] py-2  px-4"
+        onClick={handleRemoveFocus} >
+          <div className="justify-between cursor-pointer" >
+            My orders
+          </div>
+        </li>
+     
+        }
+           </Link>
           {user&&
         <li className="border-b-1 border-[#ebebeb] py-2  px-4 cursor-pointer">
         <a  onClick={handleRemoveFocus}>Settings</a>

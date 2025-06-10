@@ -121,7 +121,6 @@ const Payment = () => {
     setLoading(true);
     const res=await fetch(BASE_URL+'/payment/verify',{credentials:'include'});
     const data=await res.json();
-      console.log("verifyPayment.............",data)
     if(data?.data?.paymentStatus==='Paid'){
       router.push("/order-placed")
     }

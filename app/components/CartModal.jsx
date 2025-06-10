@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { setLoginPage } from "../store/loginSlice";
 import { useRouter } from "next/navigation";
 import CartCard from "./CartCard";
+import ApplyCoupons from "./ApplyCoupons";
 
 const CartModal = () => {
   console.log("inside cart modal")
@@ -18,7 +19,8 @@ const CartModal = () => {
   const user=useSelector((store)=>store.user);
   const cartItems = useSelector((store) => store.cart.cartItems);
   
- const totalSum= cartItems?.reduce((acc,item)=>(  acc +item.itemQuantity*item.price),0) || 0;
+  const totalSum = useSelector((store) => store.cart.totalPrice);
+
  
 
   useEffect(() => {
@@ -51,6 +53,7 @@ const CartModal = () => {
 
   return (
     <div>
+    {showCartModal&&
       <div
         className={`fixed inset-0 z-[999] bg-white/30 transition-opacity duration-300 ease-in-out ${
           showCartModal
@@ -77,7 +80,7 @@ const CartModal = () => {
           <div
             className={
                (!cartItems||cartItems?.length === 0 ?"":
-              "overflow-auto ")+ (isClient ? "max-h-[calc(100vh-3rem)]" : "")
+              "overflow-auto ")+ (isClient ? "h-[calc(81vh-3rem)]" : "")
             }
           >
             {!cartItems||cartItems?.length === 0 ? (
@@ -103,36 +106,50 @@ const CartModal = () => {
                 </div>
               </div>
             ) : (
-              cartItems?.map((item) => (
+               <div>
+             { cartItems?.map((item) => (
              <CartCard {...item} key={item._id}/>
               ))
-            )}
-            <div className="flex py-4 justify-between">
+              }
+              <div>
+               <ApplyCoupons totalSum={totalSum}/>
+              </div>
+              </div>
+                 )
+            
+            
+            }
+          
+
+          </div>
+            <div className=" py-4 ">
+            <div className="flex  justify-between border-t-1 border-[#d8d8d8] py-4">
             { !cartItems||cartItems?.length === 0  ? <div></div>:
                <div className="text-[##282c3f] mx-6 text-lg font-semibold py-2">
-               Total : ₹{totalSum}.00 
+               Total : ₹{totalSum.toFixed(2)} 
             </div>
            
             }
             <div className="rounded py-2 text-lg font-semibold bg-orange-600 mr-4 text-white cursor-pointer">
             {!cartItems||cartItems?.length === 0 ?<div></div>:!user ?
-               <div className="px-2" onClick={()=>{dispatch(setLoginPage(true))
+               <button className="px-2" onClick={()=>{dispatch(setLoginPage(true))
                                                                                                                                handleCartModal()}}>
              PROCEED TO LOGIN
-            </div>
-            :<div className="flex-1 text-lg px-2 " onClick={()=>{
-              dispatch(setIsShowCartModal(false));
-              router.push('/checkout/address')}}>
+            </button>
+            :<button className="flex-1 text-lg px-2 cursor-pointer" onClick={()=>{
+             
+               dispatch(setIsShowCartModal(false))
+                router.push('/checkout/address');}}>
             PROCEED TO CHECKOUT
-            </div>
+            </button>
             }
             </div>
            
             </div>
-
-          </div>
+            </div>
         </div>
       </div>
+      }
     </div>
   );
 };

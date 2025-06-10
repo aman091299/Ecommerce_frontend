@@ -1,5 +1,5 @@
 
-import { addFullCartItems } from "../store/cartSlice";
+import { addFullCartItems ,addCartItemsTotalPrice,addCartItemsDiscount, addCartItemsOriginalTotalPrice} from "../store/cartSlice";
 import { addUser } from "../store/userSlice";
 import { BASE_URL } from "./constants";
 export const getALLCartItems=async (dispatch)=>{
@@ -7,12 +7,17 @@ export const getALLCartItems=async (dispatch)=>{
   
     const res=await fetch(BASE_URL+"/cart/viewAllCartItems", {credentials: 'include'});
     const data=await res.json();
+    console.log("/cart/viewAllCartItems ddat...",data)
     if(data?.data?.length===0){
        dispatch(addFullCartItems([]));
     }
     else{
+      console.log("inside view all cart  Items",data)
 
-          dispatch(addFullCartItems(data?.data));
+          dispatch(addFullCartItems(data?.data?.items));
+          dispatch(addCartItemsTotalPrice(data?.data?.totalPrice));
+            dispatch(addCartItemsOriginalTotalPrice(data?.data?.originalTotalPrice))
+           dispatch(addCartItemsDiscount(data?.data?.couponDiscount));
     }
   }
   catch(err){
@@ -63,7 +68,10 @@ export const mergeCart=async(dispatch)=>{
    
   const data=await res.json();
      if(data.success){
-      return  dispatch(addFullCartItems(data?.data));
+
+                        dispatch(addCartItemsOriginalTotalPrice(data?.data?.originalTotalPrice))
+                      dispatch(addFullCartItems(data?.data?.items));
+          return    dispatch(addCartItemsTotalPrice(data?.data?.totalPrice));
   }
   }
   catch(err){

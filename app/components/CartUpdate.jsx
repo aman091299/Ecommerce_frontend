@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation'
 
 
- const CartUpdate = () => {
+ const CartUpdate = ({orderId}) => {
    console.log("inside order placed")
     const cart=useSelector(store=>store.cart.cartItems);
     const dispatch=useDispatch();
@@ -33,7 +33,7 @@ useEffect(()=>{
     <div className="font-semibold text-2xl" >Your order placed successfully.</div>
     <div className=" text-gray-400">You will receive order updates on your WhatsApp shortly.</div>
     <div>
-      <div className="font-semibold">Order Number 44965</div>
+      <div className="font-semibold">Order Number {orderId}</div>
     </div>
     <div className="flex gap-4">
       <button 

@@ -25,7 +25,7 @@ const ProductPageContainer = ({
   const cartItems=useSelector(store=>store.cart.cartItems);
 
  const  productDetails=useMemo(()=>{
-  return cartItems.length?cartItems?.filter((item)=> (  item?._id ===_id )):[]
+  return cartItems?.length?cartItems?.filter((item)=> (  item?._id ===_id )):[]
 
  },[cartItems,_id]);
  const  quantityInCart  =productDetails?.[0]?.itemQuantity || 0;
@@ -115,12 +115,12 @@ const ProductPageContainer = ({
             </div>
             <div className="flex justify-between px-4 py-4">
               <div className="flex items-center">
-                <span className="font-semibold text-xl">₹{price}.00</span>
+                <span className="font-semibold text-xl">₹{price.toFixed(2)}</span>
                 <span
                   className="ml-2  text-[#a9a9a9] line-through"
                   style={{ textDecorationThickness: "1px" }}
                 >
-                  ₹{actualPrice}.00
+                  ₹{actualPrice.toFixed(2)}
                 </span>
               </div>
               {quantityInCart === 0 ? (

@@ -12,6 +12,7 @@ const orderPlace = () => {
     const [totalSum,setTotalSum]=useState(0);
     const [userDetails,setUserDetails]=useState(null);
     const [paymentMode,setPaymentMode]=useState(null);
+    const [orderId,setOrderId]=useState(null);
     const [loading,setLoading]=useState(true);
 
  useEffect(()=>{
@@ -29,6 +30,7 @@ const orderPlace = () => {
             setTotalSum(data?.data?.amount);
             setPaymentMode(data?.data?.paymentMode);
             setUserDetails(data?.data?.userDetails);
+            setOrderId(data?.data?.razorpayOrderId);
         }
         
     } catch (error) {
@@ -45,7 +47,7 @@ const orderPlace = () => {
   }
   return (
     <div className="py-26 w-full">
-    <CartUpdate/>
+    <CartUpdate orderId={orderId} />
     <div className="mt-15 px-10 flex gap-10">
       <div className="w-1/2">
     <UserDetail {...userDetails} paymentMode={paymentMode} />

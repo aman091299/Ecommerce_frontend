@@ -1,10 +1,14 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, original } from "@reduxjs/toolkit";
 
 const cartSlice=createSlice({
     name:'cart',
     initialState:{
       cartItems:[],
       isShowCartModal:false,
+       totalPrice:0,
+       couponDiscount:0,
+       originalTotalPrice:0,
+
     },
     reducers:{
         addItemsInAddToCart:(state,action)=>{
@@ -30,6 +34,15 @@ const cartSlice=createSlice({
               return [];
              }
               state.cartItems=action.payload;
+        },
+        addCartItemsTotalPrice:(state,action)=>{
+          state.totalPrice=action.payload;
+        },
+          addCartItemsDiscount:(state,action)=>{
+          state.couponDiscount=action.payload;
+        },
+         addCartItemsOriginalTotalPrice:(state,action)=>{
+          state.originalTotalPrice=action.payload;
         }
        
       
@@ -37,6 +50,6 @@ const cartSlice=createSlice({
 })
 
 
-export const {addItemsInAddToCart,removeItemsFromAddToCart,setIsShowCartModal, addFullCartItems}=cartSlice.actions;
+export const {addItemsInAddToCart,removeItemsFromAddToCart,setIsShowCartModal, addFullCartItems,addCartItemsTotalPrice,addCartItemsDiscount,addCartItemsOriginalTotalPrice}=cartSlice.actions;
 
 export default cartSlice.reducer;

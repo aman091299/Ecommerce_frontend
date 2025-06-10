@@ -1,12 +1,11 @@
 'use client'
-import {useState} from 'react'
 import { useSelector } from 'react-redux';
+import PriceSummary from './PriceSummary';
 
 const OrderSummary = () => {
 
-  const [isShowFullText,setIsShowFullText]=useState(false);
    const cartItems=useSelector(store=>store.cart.cartItems);
- const totalSum= cartItems?.reduce((acc,item)=>(  acc +item.itemQuantity*item.price),0) || 0;
+   const totalSum = useSelector((store) => store.cart.totalPrice);
   return (
     <div className="text-black   min-w-full  py-2 border-1 border-[#ececec] rounded ">
          <div className="px-4 font-semibold">
@@ -29,36 +28,7 @@ const OrderSummary = () => {
         ))}
            
         </div>
-        <div className="py-3">
-            <div className="px-4">
-                <div className="flex justify-between text-sm font-semibold text-neutral">
-                    <div>Price Summary</div>
-                    <div onClick={()=>setIsShowFullText(prev=>!prev)}>{isShowFullText?"Show More":"Show Less"}</div>
-                </div>
-              {isShowFullText &&<>
-                      <div className="  border-b-1 w-full my-3 mr-10"></div>
-
-               <div className="flex justify-between text-[#616161] text-sm ">
-                    <div>Item Total</div>
-                    <div>₹{totalSum}.00</div>
-                </div>
-
-                  <div className="flex justify-between mt-4 text-[#616161] text-sm ">
-                    <div>Sub Total</div>
-                    <div>₹{totalSum}.00</div>
-                </div>
-                </>
-              }
-    
-    <div className="border-dashed border-[#d9d9d9] border-1 w-full my-4 mr-10"></div>
-
-                 <div className="flex justify-between font-semibold text-neutral ">
-                    <div>Grand Total</div>
-                    <div>₹{totalSum}.00</div>
-                </div>
-
-            </div>
-        </div>
+         <PriceSummary totalSum={totalSum}/>
     </div>
   )
 }
