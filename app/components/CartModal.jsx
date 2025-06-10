@@ -80,7 +80,7 @@ const CartModal = () => {
           <div
             className={
                (!cartItems||cartItems?.length === 0 ?"":
-              "overflow-auto ")+ (isClient ? "h-[calc(81vh-3rem)]" : "")
+              "overflow-auto ")+ (isClient ? "h-[calc(84vh-3rem)]" : "")
             }
           >
             {!cartItems||cartItems?.length === 0 ? (
@@ -122,8 +122,8 @@ const CartModal = () => {
           
 
           </div>
-            <div className=" py-4 ">
-            <div className="flex  justify-between border-t-1 border-[#d8d8d8] py-4">
+            <div className="">
+            <div className={"flex  justify-between  py-4 " + (!cartItems||cartItems?.length === 0?"py-8":"border-t-1 border-[#d8d8d8]")}>
             { !cartItems||cartItems?.length === 0  ? <div></div>:
                <div className="text-[##282c3f] mx-6 text-lg font-semibold py-2">
                Total : ₹{totalSum.toFixed(2)} 

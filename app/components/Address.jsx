@@ -30,7 +30,7 @@ const Address = () => {
   }, [newAddress]);
 
   const getAddress = async () => {
-    setLoading(true);
+   
     try {
       const res = await fetch(BASE_URL + "/address", {
         credentials: "include",

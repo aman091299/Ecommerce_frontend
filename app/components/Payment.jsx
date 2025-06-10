@@ -1,6 +1,7 @@
 import {useState,useEffect} from 'react'
 import { BASE_URL } from '../utils/constants';
 import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
 import Loader from './Loader';
 
 const Payment = () => {
@@ -8,6 +9,9 @@ const Payment = () => {
     const [type,setType]=useState('Online');
     const [loading,setLoading]=useState(true);
     const router=useRouter();
+    const totalSum = useSelector((store) => store.cart.totalPrice);
+   
+   
 
     useEffect(() => {
     getAddress();
@@ -25,6 +29,9 @@ const Payment = () => {
           router.push("/checkout/address");
           return;
          }
+         if(!totalSum){
+         return router.push("/")
+         }
         
           setLoading(false);
          
@@ -34,6 +41,7 @@ const Payment = () => {
          setLoading(false);
     } 
     };
+
       if (loading) {
         return (
           <div className="py-40 relative">
@@ -102,7 +110,7 @@ const Payment = () => {
             
             console.log("cod data......",data);
             if(data.success){
-             router.push('/order-placed');
+            return router.push('/order-placed');
             }
             }
          
@@ -118,11 +126,11 @@ const Payment = () => {
        
   const verifyPayment=async()=>{
    try {
-    setLoading(true);
+    // setLoading(true);
     const res=await fetch(BASE_URL+'/payment/verify',{credentials:'include'});
     const data=await res.json();
     if(data?.data?.paymentStatus==='Paid'){
-      router.push("/order-placed")
+     return router.push("/order-placed")
     }
    } catch (error) {
     console.log('Error',error);

@@ -16,19 +16,14 @@ const page = () => {
    const {slug}=useParams();
     const router=useRouter();
     const dispatch=useDispatch();
-
-//     useEffect(() => {
-//   if (!cart || cart.length === 0 || !user) {
-//     router.push("/");
-//   }
-// }, [cart, user]);
-
-//     if (!cart || cart.length === 0 || !user) {
-//   return <div className="text-center py-20 text-gray-600 flex items-center justify-center h-screen text-2xl">Your cart is empty or you're not logged in.</div>;
-// }
-
-
-
+        const totalSum = useSelector((store) => store.cart.totalPrice);
+   
+         
+    useEffect(()=>{
+       if(!totalSum){
+            return router.push("/")
+          }
+         })
 
   const handleCartModal=()=>{
      dispatch(setIsShowCartModal(true))

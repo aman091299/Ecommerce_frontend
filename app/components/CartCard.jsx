@@ -98,7 +98,7 @@ const CartCard = ({name,combo,price,actualPrice,itemQuantity,_id}) => {
                           className="ml-2  text-[12px] text-[#a9a9a9] line-through"
                           style={{ textDecorationThickness: "1px" }}
                         >
-                          ₹{actualPrice.toFixed(2)}
+                          ₹{actualPrice?.toFixed(2)}
                         </span>
                         <span className="font-bold text-[14px]">
                           ₹{price.toFixed(2)}
