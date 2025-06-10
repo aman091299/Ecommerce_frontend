@@ -12,6 +12,7 @@ import { BASE_URL } from "../utils/constants"
 import { useEffect } from "react"
 import { getALLCartItems,getUserData } from "../utils/userCartFunc"
 import { removeUser } from "../store/userSlice"
+import { useRouter } from "next/navigation"
 import GoogleMapComponent from "./GoogleMapComponent"
 
 
@@ -20,7 +21,7 @@ const Navbar = () => {
   const cart=useSelector(store=>store.cart.cartItems);
   const user=useSelector(store=>store.user);
  const itemQuantity= cart?.reduce((acc,item)=>( acc +item.itemQuantity),0) || 0;
-
+  const router=useRouter();
   const dispatch=useDispatch();
 
 
@@ -51,7 +52,7 @@ const Navbar = () => {
        getALLCartItems(dispatch);
         getUserData(dispatch);
       dispatch(removeUser());
-       
+       router.push("/");
       
     } catch (error) {
       return console.log("Error" + error.message);
