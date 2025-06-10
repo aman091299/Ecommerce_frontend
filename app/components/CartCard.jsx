@@ -101,7 +101,7 @@ const CartCard = ({name,combo,price,actualPrice,itemQuantity,_id}) => {
                           ₹{actualPrice?.toFixed(2)}
                         </span>
                         <span className="font-bold text-[14px]">
-                          ₹{price.toFixed(2)}
+                          ₹{price?.toFixed(2)}
                         </span>
                       </div>
 

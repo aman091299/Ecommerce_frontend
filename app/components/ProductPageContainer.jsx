@@ -120,7 +120,7 @@ const ProductPageContainer = ({
                   className="ml-2  text-[#a9a9a9] line-through"
                   style={{ textDecorationThickness: "1px" }}
                 >
-                  ₹{actualPrice.toFixed(2)}
+                  ₹{actualPrice?.toFixed(2)}
                 </span>
               </div>
               {quantityInCart === 0 ? (

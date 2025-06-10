@@ -68,7 +68,7 @@ const Card=({image,name,description,price,_id,combo,actualPrice})=>{
       </Link>
     <div className="flex flex-row items-center justify-between">
      <Link href={"/product/"+formattedName}>
-    <div className="text-[13px]"> Starting from ₹{price.toFixed(2)}</div>
+    <div className="text-[13px]"> Starting from ₹{price?.toFixed(2)}</div>
    </Link>
         <div>
         

@@ -43,7 +43,7 @@ const PriceSummary = ({totalSum}) => {
 
                  <div className="flex justify-between font-semibold text-neutral ">
                     <div className="text-xl">Grand Total</div>
-                    <div>₹{totalSum.toFixed(2)}</div>
+                    <div>₹{totalSum?.toFixed(2)}</div>
                 </div>
 
             </div>
