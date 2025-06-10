@@ -16,14 +16,14 @@ const page = () => {
    const {slug}=useParams();
     const router=useRouter();
     const dispatch=useDispatch();
-        const totalSum = useSelector((store) => store.cart.totalPrice);
+        // const totalSum = useSelector((store) => store.cart.totalPrice);
    
          
-    useEffect(()=>{
-       if(!totalSum){
-            return router.push("/")
-          }
-         })
+    // useEffect(()=>{
+    //    if(!totalSum){
+    //         return router.push("/")
+    //       }
+    //      })
 
   const handleCartModal=()=>{
      dispatch(setIsShowCartModal(true))
