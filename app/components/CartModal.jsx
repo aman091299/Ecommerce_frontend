@@ -132,7 +132,7 @@ const CartModal = () => {
             }
             <div className="rounded py-2 text-lg font-semibold bg-orange-600 mr-4 text-white cursor-pointer">
             {!cartItems||cartItems?.length === 0 ?<div></div>:!user ?
-               <button className="px-2" onClick={()=>{dispatch(setLoginPage(true))
+               <button className="px-2 cursor-pointer" onClick={()=>{dispatch(setLoginPage(true))
                                                                                                                                handleCartModal()}}>
              PROCEED TO LOGIN
             </button>
