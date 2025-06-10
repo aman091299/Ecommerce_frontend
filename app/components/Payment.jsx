@@ -53,6 +53,10 @@ const Payment = () => {
 
     const placeOrderhandler=async(type)=>{
       try{   
+        if(totalSum===0){
+          console.log("inside total sum 0");
+          return;
+        }
         console.log("placing order .....",type)
             if(type==='Online'){
                  setLoading(true);
