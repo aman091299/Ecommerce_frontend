@@ -15,10 +15,6 @@ const ApplyCoupons = ({totalSum}) => {
     const [loading,setLoading]=useState(false);
     const dispatch=useDispatch();
       const user=useSelector(store=>store.user);
-      console.log("selectedCoupon",selectedCoupon)
-    console.log("Coupon",couponCode)
-
-
 
     useEffect(()=>{
          getAllCoupons();
@@ -92,7 +88,7 @@ const ApplyCoupons = ({totalSum}) => {
     }
 
     const getAllCoupons=async()=>{
-        try {
+        try { setLoading(true);
             const res=await fetch(BASE_URL+"/coupon/all",{credentials:'include'});
             const data=await res.json();
         
@@ -100,6 +96,8 @@ const ApplyCoupons = ({totalSum}) => {
 
         } catch (error) {
             console.log("Error in getting all coupon ",error)
+        }finally{
+            setLoading(false);
         }
     }
 
