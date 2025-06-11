@@ -107,7 +107,7 @@ const fetchSuggestions = async (query) => {
       );
       const data = await res.json();
 
-      const address = data.data.address;
+      const address = data?.data?.address;
       setUserAddress(address);
       setLocationModal(false);
       setIsTextDetect(false);

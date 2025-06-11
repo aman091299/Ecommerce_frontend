@@ -9,7 +9,7 @@ import { setLoginPage } from "../store/loginSlice"
 import LoginModal from "./LoginModal"
 import axios from "axios"
 import { BASE_URL } from "../utils/constants"
-import { useEffect } from "react"
+import { useEffect,useState } from "react"
 import { getALLCartItems,getUserData } from "../utils/userCartFunc"
 import { removeUser } from "../store/userSlice"
 import { useRouter } from "next/navigation"
@@ -18,6 +18,7 @@ import GoogleMapComponent from "./GoogleMapComponent"
 
 const Navbar = () => {
   console.log("inside navbar")
+  const [searchText,setSearchText]=useState('');
   const cart=useSelector(store=>store.cart.cartItems);
   const user=useSelector(store=>store.user);
  const itemQuantity= cart?.reduce((acc,item)=>( acc +item.itemQuantity),0) || 0;
@@ -26,6 +27,18 @@ const Navbar = () => {
 
 
   useEffect(()=>{
+    if(searchText !== ''){
+      const timer=setTimeout(()=>{
+        console.log("inside search text...................")
+         router.push("/search?searchText="+searchText)
+      },300) 
+      return ()=>{
+        clearTimeout(timer);
+      }
+      }
+  },[searchText])
+  
+  useEffect(()=>{
     console.log("inside nav bar useffect")
   getALLCartItems(dispatch);
  },[itemQuantity])
@@ -33,6 +46,7 @@ const Navbar = () => {
   useEffect(()=>{
    getUserData(dispatch);
  },[])
+
   const handleRemoveFocus=()=>{
      document.activeElement.blur()
   }
@@ -64,10 +78,6 @@ const Navbar = () => {
     dispatch(setLoginPage(true));
   }
 
-  
-
-
-
   return (
     <div className="relative">
     <div className="navbar shadow-sm grid grid-cols-20 bg-base-content h-20 px-20 fixed z-800">
@@ -91,7 +101,7 @@ const Navbar = () => {
  <path d="" stroke="none" fill="#fcfcfc" fillRule="evenodd">
 </path>
 
-</svg>
+           </svg>
 
 
     </div>
@@ -101,7 +111,11 @@ const Navbar = () => {
     <GeoLocation/>
   </div>
   <div className="flex justify-between gap-2 col-span-12 ">
-    <input type="text" placeholder="Search for seafood , chicken and more" className="input input-bordered w-24 md:w-80 focus:outline-none rounded-full" />
+    <input type="text" placeholder="Search for seafood , chicken and more" 
+    value={searchText}
+    onChange={(e)=>setSearchText(e.target.value)}
+    className="input input-bordered w-24 md:w-80 focus:outline-none rounded-full" />
+
     <div className="flex items-center gap-15">
     <div className="dropdown dropdown-end ">
       <div tabIndex={0} role="button"  >

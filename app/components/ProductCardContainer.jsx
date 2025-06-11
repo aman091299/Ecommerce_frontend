@@ -1,6 +1,6 @@
 import ProductCard from "./ProductCard"
 
-const ProductCardContainer = ({products}) => {
+const ProductCardContainer = ({products, lastProductRef}) => {
    console.log("inside product card container")
   if(!products.length){
     return <div className="flex justify-center items-center">No Products</div>;
@@ -8,8 +8,10 @@ const ProductCardContainer = ({products}) => {
 
   return (
     <div className="flex flex-wrap gap-4">
-    {products?.map((product)=>(
-       <ProductCard key={product._id} {...product} />
+    {products?.map((product,index)=>(
+      <div key={product._id}  ref={index===products.length-1 && lastProductRef?lastProductRef:null}>
+       <ProductCard {...product}  />
+       </div>
     ))}
         </div>
  
