@@ -15,29 +15,25 @@ const searchPage = () => {
 const searchParams = useSearchParams()
  const searchText = searchParams.get('searchText')
   const observerRef = useRef(null);
-  console.log("search page values 8")
-      console.log("inside get search pages....","products",products,"page",page,"hasMore",hasMore,"isFetching",isFetching,"observerRef",observerRef)
 
  const getSearchQueryProducts=async()=>{
     try {
       // setLoading(true);
-      console.log("inside get search query function 3")
-      if (!searchText || !hasMore) return;
+      // if (!searchText || !hasMore) return;
        setIsFetching(true);
        const res=await fetch(BASE_URL+"/product/search?searchText="+searchText+"&page="+page+"&limit="+4,{credentials:'include'});
        const data =await res.json();
-       console.log("data...44.",data)
   if (page === 1) {
-      console.log("inside get search query function 5 set products")
         setProducts(data.products);
       } else {
         //all the products including previous products
-        console.log("else inside get search query function previous products  set products6")
-
-        setProducts(prev => [...prev, ...data.products]);
+        setProducts(prev => {
+          const prevProductsIds=new Set(prev.map(p=>p._id));
+          const newProducts=data.products.filter(p=>!prevProductsIds.has(p._id));
+         return [...prev, ...newProducts];
+        })
       }
       if (data.countProducts < 3) {
-         console.log("else inside get search query function previous products sethas no more pages 7")
         setHasMore(false); // no more pages
       }
     } catch (error) {
@@ -52,29 +48,35 @@ const searchParams = useSearchParams()
 
   // Infinite scroll trigger
   const lastProductRef = useCallback(node => {
-    if (isFetching) return;
-    console.log("inside last product ref node1 and is fetch false and has node ",node,"observerRef",observerRef.current,"isFetaching",isFetching,"hasMore", hasMore)
+    // if (isFetching) return;
+    console.log("enterires")
     if (observerRef.current) observerRef.current.disconnect();
 
     observerRef.current = new IntersectionObserver(entries => {
       if (entries[0].isIntersecting && hasMore) {
-        console.log("seting page + 1",page,entries[0])
         setPage(prev => prev + 1);
       }
     });
-    console.log("inside last product ref node 2",node,"observerRef",observerRef.current)
 
     if (node) observerRef.current.observe(node);
-  }, [isFetching, hasMore]);
+  }, []);
 
  useEffect(()=>{
-  console.log("inside useEffect 1 ")
-     if(searchText){
-        console.log("inside useEffect  search text 2",searchText);
 
-      getSearchQueryProducts();
+     if(searchText){
+       getSearchQueryProducts();
      }
- },[searchText,page,hasMore])
+ },[searchText,page])
+
+ useEffect(() => {
+console.log("reeee")
+  setProducts([]);
+  setPage(1);
+  setHasMore(true);
+  setIsFetching(false);
+  setLoading(true);
+
+}, [searchText]);
 
  if(loading){
 

@@ -27,9 +27,8 @@ const Navbar = () => {
 
 
   useEffect(()=>{
-    if(searchText !== ''){
+    if(searchText.trim() !== ''){
       const timer=setTimeout(()=>{
-        console.log("inside search text...................")
          router.push("/search?searchText="+searchText)
       },300) 
       return ()=>{
