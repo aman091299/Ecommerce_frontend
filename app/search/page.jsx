@@ -24,7 +24,7 @@ const searchParams = useSearchParams()
       console.log("inside get search query function 3")
       if (!searchText || !hasMore) return;
        setIsFetching(true);
-       const res=await fetch(BASE_URL+"/product/search?searchText="+searchText+"&page="+page+"&limit="+3,{credentials:'include'});
+       const res=await fetch(BASE_URL+"/product/search?searchText="+searchText+"&page="+page+"&limit="+4,{credentials:'include'});
        const data =await res.json();
        console.log("data...44.",data)
   if (page === 1) {
