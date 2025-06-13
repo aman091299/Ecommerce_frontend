@@ -1,6 +1,28 @@
 import CollectionPage from '@/app/components/CollectionPage'
 import React from 'react'
 
+export async function generateMetadata({ params }) {
+  const formatedCollectionName = params.slug[0]
+    .replace(/-/g, " ")
+    .replace(/\band\b/g, "&")
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
+  const title = `Buy Fresh ${formatedCollectionName} Online - Cambay Tiger`;
+
+  return {
+    title,
+       icons: {
+      icon: [
+        {
+          rel: "icon",
+          url: "/favicon.svg", 
+          type: "image/svg+xml",
+        },
+      ],
+    },
+  };
+}
+
 const page = () => {
   console.log("inside collection page")
   return (

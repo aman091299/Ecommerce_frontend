@@ -7,12 +7,12 @@ export const getALLCartItems=async (dispatch)=>{
   
     const res=await fetch(BASE_URL+"/cart/viewAllCartItems", {credentials: 'include'});
     const data=await res.json();
-    console.log("/cart/viewAllCartItems ddat...",data)
+    console.log("/cart/viewAllCartItems data...")
     if(data?.data?.length===0){
        dispatch(addFullCartItems([]));
     }
     else{
-      console.log("inside view all cart  Items",data)
+      console.log("inside view all cart  Items")
 
           dispatch(addFullCartItems(data?.data?.items));
           dispatch(addCartItemsTotalPrice(data?.data?.totalPrice));

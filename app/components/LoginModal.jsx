@@ -103,6 +103,8 @@ const LoginModal = () => {
         return setError(res?.data?.message);
       }
       if (res?.data?.success) {
+        console.log("Inside login handler success data" )
+
         setError('')
         dispatch(addUser(res?.data?.data));
         // getALLCartItems(dispatch);
