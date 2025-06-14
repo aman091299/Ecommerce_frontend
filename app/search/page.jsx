@@ -7,7 +7,7 @@ import Loader from '../components/Loader';
 import ProductCardContainer from '../components/ProductCardContainer';
 
 const searchPage = () => {
-    console.log("inside search page ....")
+    console.log("inside search page ....1233")
 
   const [products,setProducts]=useState([]);
   const [loading,setLoading]=useState(true);
