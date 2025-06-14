@@ -72,6 +72,7 @@ const ProductCard = ({
               height={600}
               width={1090}
               alt="Product image"
+              priority
               className="h-[170px] w-[700px] rounded"
             />
             <div className="absolute top-34 left-3">

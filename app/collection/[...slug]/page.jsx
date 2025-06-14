@@ -2,7 +2,8 @@ import CollectionPage from '@/app/components/CollectionPage'
 import React from 'react'
 
 export async function generateMetadata({ params }) {
-  const formatedCollectionName = params.slug[0]
+  let formatedCollectionName =await params;
+  formatedCollectionName.slug[0]
     .replace(/-/g, " ")
     .replace(/\band\b/g, "&")
     .replace(/\b\w/g, (char) => char.toUpperCase());
