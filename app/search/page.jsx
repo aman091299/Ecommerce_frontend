@@ -25,6 +25,7 @@ const searchPage = () => {
         setIsFetching(true);
         const res=await fetch(BASE_URL+"/product/search?searchText="+searchText+"&page="+page+"&limit="+5,{credentials:'include'});
         const data =await res.json();
+        console.log("data",data)
     if (page === 1) {
           setProducts(data.products);
         } else {

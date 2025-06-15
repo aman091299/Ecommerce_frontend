@@ -52,7 +52,7 @@ useEffect(()=>{
         ))}
         </div>
          {/* Dot Pagination */}
-      <div className="absolute bottom-23 left-1/2 -translate-x-1/2 flex space-x-2">
+      <div className="absolute bottom-38 left-1/2 -translate-x-1/2 flex space-x-2">
         {bannerImages.map((_, idx) => (
           <div
             key={idx}

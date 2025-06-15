@@ -115,7 +115,7 @@ const ProductPageContainer = ({
             </div>
             <div className="flex justify-between px-4 py-4">
               <div className="flex items-center">
-                <span className="font-semibold text-xl">₹{price.toFixed(2)}</span>
+                <span className="font-semibold text-xl">₹{price?.toFixed(2)}</span>
                 <span
                   className="ml-2  text-[#a9a9a9] line-through"
                   style={{ textDecorationThickness: "1px" }}
