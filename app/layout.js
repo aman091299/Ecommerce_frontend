@@ -31,12 +31,18 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
     <head>
-       <script src="https://checkout.razorpay.com/v1/checkout.js"/>
+       <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     </head>
       <body
       >
       <StoreProvider>
-       <Suspense fallback={<Loader />}>
+
+       <Suspense fallback={
+        <div className="min-w-screen min-h-screen flex justify-center items-center">
+        <Loader />
+        </div>
+        }>
+     
     <Navbar/>
              
         {children}
