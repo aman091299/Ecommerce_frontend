@@ -32,7 +32,7 @@ useEffect(()=>{
         return <div className="flex justify-between items-center w-full h-[310px] ">Loading...</div>
        }
     return(
-       <div className=" w-full h-[300px] overflow-hidden">
+       <div className=" relative w-full h-[300px] overflow-hidden">
       <div
         className="flex transition-transform duration-700 ease-in-out" // Changed: smooth scroll animation
         style={{ transform: `translateX(-${currentIndex * 100}%)` }} // Changed: shift container to show current image
@@ -52,7 +52,7 @@ useEffect(()=>{
         ))}
         </div>
          {/* Dot Pagination */}
-      <div className="absolute bottom-32 left-1/2 -translate-x-1/2 flex space-x-2">
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-2">
         {bannerImages.map((_, idx) => (
           <div
             key={idx}
