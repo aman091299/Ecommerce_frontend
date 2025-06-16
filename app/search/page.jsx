@@ -66,9 +66,13 @@ const searchPage = () => {
   }, [hasMore]);
 
  useEffect(()=>{
-     if(searchText){
-       getSearchQueryProducts();
+  let timer;
+       if(searchText){
+    timer=setTimeout(()=>{
+           getSearchQueryProducts();
+  },300)
      }
+    return ()=>clearTimeout(timer);
  },[searchText,page])
 
  useEffect(() => {
