@@ -70,7 +70,7 @@ const searchPage = () => {
        if(searchText){
     timer=setTimeout(()=>{
            getSearchQueryProducts();
-  },300)
+  },900)
      }
     return ()=>clearTimeout(timer);
  },[searchText,page])
