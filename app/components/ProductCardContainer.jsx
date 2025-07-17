@@ -1,8 +1,8 @@
 import ProductCard from "./ProductCard"
 
 const ProductCardContainer = ({products, lastProductRef}) => {
-   console.log("inside product card container")
-  if(!products.length){
+   console.log("inside product card container11")
+  if(!products?.length){
     return <div className="flex justify-center items-center">No Products</div>;
   }
 

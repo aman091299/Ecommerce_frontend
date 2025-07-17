@@ -13,11 +13,11 @@ import {
 import Loader from "@/app/components/Loader";
 
 const CollectionPage = () => {
-  console.log("inside collection")
+  console.log("inside collection.................")
   const [products, setProducts] = useState(null);
+  const [loading,setLoading]=useState(true);
   const [filterCurrentIndex, setFilterCurrentIndex] = useState(-1);
-  const [collectionDropdownCurrentIndex, setCollectionDropdownCurrentIndex] =
-    useState(0);
+  const [collectionDropdownCurrentIndex, setCollectionDropdownCurrentIndex] =useState(0);
   const [selectedFilters, setSelectedFilters] = useState({});
   const dropdownRef = useRef(null);
   const params = useParams();
@@ -60,6 +60,7 @@ const CollectionPage = () => {
 
 
   useEffect(() => {
+    console.log("inside usefeefjjjjjjjjjj")
     getProductData(null);
 
     const category = categories?.find((cat) => cat.name === collectionName);
@@ -154,15 +155,21 @@ const CollectionPage = () => {
       }
 
       const products = await axios.get(fullUrl);
-      setProducts(products.data.products);
+      setProducts(products?.data?.products);
     } catch (error) {
-      console.log("Error in getting products" + error);
+      console.error("Error in getting products" + error);
+    }
+    finally{
+      console.log("insdie loading false.......")
+      setLoading(false);
     }
     return;
   };
 
 
-  if (!products) {
+  if (loading) {
+      console.log("insdie loading ")
+
     return (
       <div className="flex justify-center items-center w-screen h-screen">
         <Loader/>
@@ -224,7 +231,7 @@ const CollectionPage = () => {
                 }}
               >
                 <div className="cursor-pointer font-semibold text-sm">
-                  {filterValue.name}
+                  {filterValue?.name}
                 </div>
                 <div>
                   {filterCurrentIndex === index ? (
@@ -273,9 +280,9 @@ const CollectionPage = () => {
                           <input
                             type="checkbox"
                             value={filterDropdownValue}
-                            name={filterValue.name}
+                            name={filterValue?.name}
                             checked={
-                              !!selectedFilters[filterValue.name]?.includes(
+                              !!selectedFilters[filterValue?.name]?.includes(
                                 filterDropdownValue
                               )
                             }
