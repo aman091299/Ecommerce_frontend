@@ -2,17 +2,16 @@
 import Image from "next/image";
 import {useEffect, useState} from 'react'
 const bannerImages=[{
-  img1:"https://cti.farziengineer.co/banners/57c8ad620a094b5f9ffec3bce5c1df8f.png?auto=format&sharp=20&ixlib=react-9.3.0"
+  img1:"/img/fishbnr.png"
 },
 {
-  img1:"https://cti.farziengineer.co/banners/2fd3f2aaf6334ed6bbe109a3d416a4f8.png?auto=format&sharp=20&ixlib=react-9.3.0"
+  img1:"/img/chickenbnr.png"
 },
 {
-  img1:"https://cti.farziengineer.co/banners/09c5332b6ece4f3aa6e9698a8d7e9cda.png?auto=format&sharp=20&ixlib=react-9.3.0"
+    img1:"/img/muttonbnr.png"
 },
 {
-  img1:"https://cti.farziengineer.co/banners/d9c29148a9794f30b9b862df26d4e28a.png?auto=format&sharp=20&ixlib=react-9.3.0"
-},
+  img1:"/img/butterbnr.png"},
 
 ]
 const Banner=()=>{

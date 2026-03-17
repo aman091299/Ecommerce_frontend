@@ -4,16 +4,16 @@ console.log("inside constant")
 export const categories = [
   {
     name: "Exclusive Deals",
-    icon: "https://cambaytigerstage-media.farziengineer.co/hosted/bxs_offer_1-237de948d7db.png",
+    icon: "/img/Rectangle_28_3.png",
     // dropdown: ["ALL", "Limited Time", "Top Picks", "Festive Offers"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Rectangle_28_3.png?auto=format&fit=max&w=1200",
+      "/img/Rectangle_28_3.png",
 
     items: 21,
   },
   {
     name: "Combos",
-    icon: "https://cti.farziengineer.co/hosted/tEST_Combo_Icon_88x88px-d88b6775b75c.png",
+       icon: "/img/Combo_Category_Image_522_x_522_px.png",
     dropdown: [
       "All",
       "Party Starter",
@@ -22,13 +22,12 @@ export const categories = [
       "Spice Kit",
     ],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Fish_Category_Image_522_x_522_px.png?auto=format&fit=max&w=1200",
-
+    "/img/Combo_Category_Image_522_x_522_px.png",
     items: 55,
   },
   {
     name: "Fish & Seafood",
-    icon: "https://cti.farziengineer.co/hosted/Fish_NEW_Category_Icon_88_x_88_px-3679f8146cab.png",
+      icon: "/img/Rectangle_28_3.png",
     dropdown: [
       "ALL",
       "Fresh water fish",
@@ -36,107 +35,95 @@ export const categories = [
       "Seafood bundles",
     ],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Prawns_Category_Image_522_x_522_px.png?auto=format&fit=max&w=1200",
-
+"/img/Rectangle_28_3.png",
     items: 33,
   },
   {
     name: "Prawns",
-    icon: "https://cti.farziengineer.co/hosted/Category_Icons_88_x_88_px-d6fd40bbe57b.png",
+       icon: "/img/Prawns_Category_Image_522_x_522_px.png",
     dropdown: ["Sea Prawns", "Farmed Prawns", "Bundles"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Chicken_Category_Image_522_x_522_px.png?auto=format&fit=max&w=1200",
-
+ "/img/Prawns_Category_Image_522_x_522_px.png",
     items: 34,
   },
   {
     name: "Poultry",
-    icon: "https://cti.farziengineer.co/hosted/CHICKEN_V20_Category_Icon_88_x_88_px-b0922ae50003.png",
+      icon: "/img/Rectangle_28_3.png",
     dropdown: ["Chicken Cuts", "Whole Chicken", "Wings"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Chicken_Category_Image_522_x_522_px.png?auto=format&fit=max&w=1200",
-
+"/img/Rectangle_28_3.png",
     items: 21,
   },
   {
     name: "Mutton",
-    icon: "https://cti.farziengineer.co/hosted/MUTTON_V30_Category_Icon_88_x_88_px-d9c3d875676d.png",
+       icon: "/img/Mutton_Category_Image_522_x_522_px.png",
     dropdown: ["Goat", "Lamb", "Minced"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Mutton_Category_Image_522_x_522_px.png?auto=format&fit=max&w=1200",
-
+"/img/Mutton_Category_Image_522_x_522_px.png",
     items: 21,
   },
   {
     name: "Ready To Cook",
-    icon: "https://cti.farziengineer.co/hosted/RTC_Icon_88x88_px-2d32453eed80.png",
+      icon: "/img/RTC_Category_Image_4.png",
     dropdown: ["ALL","Chicken RTC", "Seafood RTC", "Prawn RTC"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/RTC_Category_Image_4.png?auto=format&fit=max&w=1200",
-
+"/img/RTC_Category_Image_4.png",
     items: 21,
   },
   {
     name: "Frozen Seafood",
-    icon: "https://cti.farziengineer.co/hosted/pomfret-frozen-category-icon-88x88px-6369874e5424.png",
+       icon: "/img/Frozen_Category_Image_522_x_522_px.png",
     dropdown: ["Pomfret", "Frozen Prawns", "Frozen Fillets"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Frozen_Category_Image_522_x_522_px.png?auto=format&fit=max&w=1200",
-
+"/img/Frozen_Category_Image_522_x_522_px.png",
     items: 21,
   },
   {
     name: "Kebabs",
-    icon: "https://cti.farziengineer.co/hosted/Category_Icons_-_Kebab_88_x_88_px-eb9017d53d38.png",
+      icon: "/img/shop_by_category_-_kebab_522_x_522_px.png",
     dropdown: ["Chicken Kebabs", "Mutton Kebabs", "Seafood Kebabs"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/shop_by_category_-_kebab_522_x_522_px.png?auto=format&amp;fit=max&amp;w=1200",
-
+"/img/shop_by_category_-_kebab_522_x_522_px.png",
     items: 21,
   },
   {
     name: "Deli",
-    icon: "https://cti.farziengineer.co/hosted/Cold_cuts_category_icon-9c53f52c2e1d.png",
+       icon: "/img/Eggs_Category_Icon.png",
     dropdown: ["Cold Cuts", "Smoked Meats", "Sliced Sausages"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Shop_by_category_522x522_px.png?auto=format&fit=max&w=1200",
-
+"/img/Eggs_Category_Icon.png",
     items: 21,
   },
   {
     name: "Eggs",
-    icon: "https://cti.farziengineer.co/hosted/Eggs_Category_Icon_88_x_88_px-c580e3994cff.png",
+       icon: "/img/Eggs_Category_Icon.png",
     // dropdown: ["White Eggs", "Brown Eggs", "Organic Eggs"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Eggs_category_Image_522_x_522_px.png?auto=format&fit=max&w=1200",
-
+ "/img/Eggs_Category_Icon.png",
     items: 21,
   },
   {
     name: "Curries",
-    icon: "https://cti.farziengineer.co/hosted/Curries_Category_Icon_88_x_88_px-b47bfdbd7f97.png",
+      icon: "/img/Moilee_Curry_Category_Images_522x522.png",
     // dropdown: ["Chicken Curry", "Fish Curry", "Mutton Curry"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Moilee_Curry_Category_Images_522x522.png?auto=format&fit=max&w=1200",
-
+ "/img/Moilee_Curry_Category_Images_522x522.png",
     items: 21,
   },
   {
     name: "Marinades",
-    icon: "https://cti.farziengineer.co/hosted/Marinade_Category_Icon_88_x_88_px-29403b3a4083.png",
+       icon: "/img/Eggs_Category_Icon.png",
     // dropdown: ["Tikka Marinade", "Spicy Marinade", "Herb Marinade"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Category_Image_Marinades.png?auto=format&fit=max&w=1200",
-
+ "/img/Eggs_Category_Icon.png",
     items: 21,
   },
   {
     name: "Parathas",
-    icon: "https://cti.farziengineer.co/hosted/Paratha_Category_Icon_88_x_88_px-487eadcf6f9a.png",
+      icon: "/img/Rectangle_28_3.png",
     // dropdown: ["Plain Paratha", "Stuffed Paratha", "Mini Paratha"],
     categoryIcon:
-      "https://cti.farziengineer.co/collection-backgrounds/Paratha_Category_Images_416x560.png?auto=format&fit=max&w=320 320w",
-
+"/img/Rectangle_28_3.png",
     items: 21,
   },
 ];

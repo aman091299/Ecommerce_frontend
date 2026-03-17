@@ -60,7 +60,7 @@ setTimeout(checkScroll, 200);
             key={cat.name}
             className="flex flex-col items-center justify-center w-full border-r-gray-300 border-r-1 h-full group "
           >
-            <Image src={cat.icon} alt="navbar-icons" width={40} height={40} />
+            <Image src={cat.icon} alt="navbar-icons" width={40} height={40} className="rounded-full" />
             <div className="flex justify-center  items-baseline gap-2">
               <div className="text-[11px] max-w-10 h-9 py-1">{cat.name}</div>
            {  !excludeDropdowns.includes(cat.name) && 
